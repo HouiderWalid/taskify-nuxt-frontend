@@ -2,7 +2,7 @@ import {useAuthenticationStore} from "~/stores/authenticationStore";
 import User from "assets/ts/models/user/User";
 import GuestRoutes from "assets/ts/other/GuestRoutes";
 import DashboardRoutes from "assets/ts/other/DashboardRoutes";
-import {useAuthUserApi} from "assets/ts/requestApis";
+import {useAuthUserApi} from "assets/ts/apis/AuthenticationApis";
 import {useFetchData} from "~/composables/useFetchData";
 
 export default defineNuxtRouteMiddleware(async (to, from) => {

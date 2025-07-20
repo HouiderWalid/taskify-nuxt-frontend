@@ -3,10 +3,12 @@ import Form from "assets/ts/forms/Form.js";
 export default class SignInForm extends Form {
 
     email = {
+        id: 'sign-in-email',
         fieldTitle: 'signup.form.fields.email.title',
         fieldName: 'email',
         component: 'TextField',
-        class: 'bg-white/10 border border-white/20 text-white placeholder:text-white/60',
+        theme: 'blurry',
+        placeholder: 'Enter your email',
         titleClass: 'text-white',
         content: null,
         messages: [],
@@ -16,10 +18,12 @@ export default class SignInForm extends Form {
     }
 
     password = {
+        id: 'sign-in-password',
         fieldTitle: 'signup.form.fields.password.title',
         fieldName: 'password',
         component: 'TextField',
-        class: 'bg-white/10 border border-white/20 text-white placeholder:text-white/60',
+        theme: 'blurry',
+        placeholder: 'Enter your password',
         titleClass: 'text-white',
         type: 'password',
         content: null,

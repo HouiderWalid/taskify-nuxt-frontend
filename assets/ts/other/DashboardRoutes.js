@@ -5,15 +5,33 @@ export default class DashboardRoutes {
         PATH: '/'
     }
 
-    static DIET = {
-        NAME: 'diet',
-        PATH: '/'
+    static TASKS = {
+        NAME: 'tasks',
+        PATH: '/tasks'
+    }
+
+    static PROJECTS = {
+        NAME: 'projects',
+        PATH: '/projects'
+    }
+
+    static USERS = {
+        NAME: 'users',
+        PATH: '/users'
+    }
+
+    static SETTINGS = {
+        NAME: 'settings',
+        PATH: '/settings'
     }
 
     static getAllRoutes(){
         return [
             this.OVERVIEW,
-            this.DIET,
+            this.TASKS,
+            this.PROJECTS,
+            this.USERS,
+            this.SETTINGS,
         ]
     }
 

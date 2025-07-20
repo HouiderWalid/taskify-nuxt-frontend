@@ -1,4 +1,18 @@
 export default {
+    globals: {
+        task: {
+            statuses: {
+                todo: 'Todo',
+                in_progress: 'In Progress',
+                done: 'Done'
+            },
+            priorities:{
+                low: 'Low',
+                medium: 'Medium',
+                high: 'High'
+            }
+        }
+    },
     navbar: {
         overview: 'Overview'
     },
@@ -18,7 +32,6 @@ export default {
                     title: 'Password Confirmation'
                 }
             }
-
         }
     },
     project: {
@@ -28,13 +41,46 @@ export default {
         form: {
             fields: {
                 title: {
-                    title: 'Title'
+                    title: 'Title',
+                    placeholder: 'Enter The Title',
+                },
+                due_date: {
+                    title: 'Due Date'
+                },
+                description: {
+                    title: 'Description',
+                    placeholder: 'Describe The Project',
+                }
+            }
+        }
+    },
+    task: {
+        create: {
+            title: 'Create Task',
+        },
+        form: {
+            fields: {
+                project: {
+                    title: 'Project',
+                    placeholder: 'Search in projects'
+                },
+                member: {
+                    title: 'Assigned to member',
+                    placeholder: 'Search in members'
                 },
                 due_date: {
                     title: 'Due Date',
                 },
+                title: {
+                    title: 'Title',
+                    placeholder: 'Enter the title'
+                },
+                priority:{
+                    title: 'Priority',
+                },
                 description: {
-                    title: 'Description'
+                    title: 'Description',
+                    placeholder: 'Describe the task'
                 }
             }
         }

@@ -2,6 +2,7 @@
 import Button from "~/components/io/Button.vue";
 import {useAuthenticationStore} from "~/stores/authenticationStore";
 import User from "assets/ts/models/user/User";
+import {mdiLogout} from "@mdi/js"
 
 const {user, signOut} = useAuthenticationStore();
 const fullName = user instanceof User ? user.getFullName() : null
@@ -27,10 +28,6 @@ const navigationList = [
     name: 'Users'
   },
   {
-    link: '/chat',
-    name: 'Chat'
-  },
-  {
     link: '/settings',
     name: 'Settings'
   }
@@ -51,15 +48,10 @@ function signOutCall() {
           <span class="text-3xl text-primary-800 font-bold">Taskify</span>
         </div>
         <div class="flex gap-4 items-center justify-center">
-          <div class="rounded-full flex justify-center text-xs items-center bg-primary-800 text-white h-8 w-8">
+          <div class="rounded-full flex justify-center text-xs items-center bg-primary-800 text-white h-9 w-9">
             {{ nameLetters }}
           </div>
-          <Button @click="signOutCall" variant="outlined" class="text-nowrap" :icon="true">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24">
-              <path
-                  d="M17 7L15.59 8.41L18.17 11H8V13H18.17L15.59 15.58L17 17L22 12M4 5H12V3H4C2.9 3 2 3.9 2 5V19C2 20.1 2.9 21 4 21H12V19H4V5Z"/>
-            </svg>
-          </Button>
+          <Button @click="signOutCall" icon="logout" variant="plain"/>
         </div>
       </div>
     </div>

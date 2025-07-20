@@ -8,7 +8,7 @@ export default class Pagination extends JsonMapper {
     static total_attribute_name = 'total'
 
     #attributes = {
-        [Pagination.current_page_attribute_name]: 0,
+        [Pagination.current_page_attribute_name]: 1,
         [Pagination.data_attribute_name]: [],
         [Pagination.per_page_attribute_name]: 5,
         [Pagination.total_attribute_name]: 0,
@@ -36,7 +36,7 @@ export default class Pagination extends JsonMapper {
     }
 
     getCurrentPage() {
-        return this.getAttribute(Pagination.getCurrentPageAttributeName())
+        return this.getAttribute(Pagination.getCurrentPageAttributeName()) ?? 1
     }
 
     getTotalItems() {

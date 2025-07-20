@@ -1,33 +1,80 @@
 <script setup lang="ts">
 import Button from "~/components/io/Button.vue";
-import ProjectForm from "assets/ts/forms/ProjectForm";
-import {useCreateProjectApi, useFilteredProjectsApi} from "assets/ts/requestApis";
+import {
+  useDeleteProjectApi,
+  useFilteredProjectsApi,
+} from "assets/ts/apis/ProjectApis";
 import ProjectPagination from "assets/ts/models/project/ProjectPagination";
 import FormAlertMessage from "~/components/FormAlertMessage.vue";
 import Pagination from "assets/ts/models/Pagination";
 import PaginatedItems from "~/components/PaginatedItems.vue";
 import ProjectItem from "~/components/projects/ProjectItem.vue";
+import Project from "assets/ts/models/project/Project";
+import ConfirmationModal from "~/components/ConfirmationModal.vue";
+import ProjectFormModal from "~/components/projects/ProjectFormModal.vue";
+import useSnackManager from "~/composables/useSnackManager";
 
 definePageMeta({
   layout: 'dashboard',
 })
 
-const isModalOpen = ref(false)
-const projectForm = reactive(new ProjectForm())
-const data = reactive({pagination: new Pagination()})
+const isFormModalOpen = ref(false)
+const isDeleteModalOpen = ref(false)
+const data = reactive({
+  pagination: new Pagination({
+    [Pagination.getPerPageAttributeName()]: 5,
+    [Pagination.getCurrentPageAttributeName()]: 1,
+  })
+})
 const isListLoading = ref(true)
+const deleteLoading = ref(false)
+const selectedProject = ref()
+const {snackMessage, setSuccessMessage, setErrorMessage} = useSnackManager()
 
-function createProject() {
-  useSyncFetchData(useCreateProjectApi(projectForm))
-      .onStart(() => projectForm.closeAlertMessage().emptyValidationMessages().startCreateLoading())
-      .onValidationErrors((errors: any) => projectForm.setValidationMessages(errors))
+function deleteProject(deleteConfirmation: boolean) {
+
+  if (!deleteConfirmation) {
+    isDeleteModalOpen.value = false
+    return;
+  }
+
+  const projectId = selectedProject.value instanceof Project ? selectedProject.value.getId() : null
+  if (!projectId) {
+    return
+  }
+
+  useSyncFetchData(useDeleteProjectApi(projectId, {
+    per_page: data.pagination.getPerPage(),
+    page: data.pagination.getCurrentPage()
+  }))
+      .onStart(() => deleteLoading.value = true)
       .onSuccess((projectPagination: ProjectPagination, message: string) => {
-        isModalOpen.value = false
+        isDeleteModalOpen.value = false
         getFilteredProjects(projectPagination)
-        projectForm.setSuccessSnackMessage(message);
+        setSuccessMessage(message)
       }, ProjectPagination)
-      .onFailure((message: any) => projectForm.setErrorAlertMessage(message))
-      .onFinished(() => projectForm.endCreateLoading())
+      .onFailure((message: any) => setErrorMessage(message))
+      .onFinished(() => deleteLoading.value = false)
+}
+
+function editProject(project: Project) {
+  selectedProject.value = project
+  isFormModalOpen.value = true
+}
+
+function deleteProjectConfirmation(project: Project) {
+  selectedProject.value = project
+  isDeleteModalOpen.value = true
+}
+
+function createNewProject() {
+  selectedProject.value = null
+  isFormModalOpen.value = true
+}
+
+function getFilteredPerPageProjects(perPage: number) {
+  data.pagination.setPerPage(perPage)
+  getFilteredProjects()
 }
 
 function getFilteredProjects(projectPagination?: ProjectPagination) {
@@ -36,7 +83,10 @@ function getFilteredProjects(projectPagination?: ProjectPagination) {
     return
   }
 
-  useSyncFetchData(useFilteredProjectsApi())
+  useSyncFetchData(useFilteredProjectsApi({
+    per_page: data.pagination.getPerPage(),
+    page: data.pagination.getCurrentPage()
+  }))
       .onStart(() => isListLoading.value = true)
       .onSuccess((projectPagination: ProjectPagination) => {
         data.pagination = projectPagination
@@ -54,28 +104,30 @@ onMounted(() => {
   <div class="flex flex-col gap-4">
     <div class="flex justify-between items-center">
       <span class="font-bold text-2xl">Projects</span>
-      <Button color="bg-primary-800!" textColor="text-white" @click="isModalOpen=true">New Project</Button>
+      <Button @click="createNewProject" variant="filled">New Project</Button>
     </div>
-    <div v-if="isListLoading" class="h-48 w-full bg-gray-600 rounded-md animate-pulse"/>
-    <PaginatedItems v-else :pagination="data.pagination">
+
+    <PaginatedItems :locading="isListLoading" :pagination="data.pagination"
+                    @perPage="getFilteredPerPageProjects">
       <template #item="{item}">
-        <ProjectItem :project="item"/>
+        <ProjectItem :project="item" @edit="editProject" @delete="deleteProjectConfirmation"/>
       </template>
     </PaginatedItems>
-    <Modal v-model="isModalOpen" title="New Project">
+
+    <ProjectFormModal v-model="isFormModalOpen" :project="selectedProject" :pagination="data.pagination"
+                   @paginate="getFilteredProjects" @success-snack-message="setSuccessMessage"
+                   @cancel="isFormModalOpen = false" @close="isFormModalOpen = false"/>
+
+    <ConfirmationModal v-model="isDeleteModalOpen" :loading="deleteLoading"
+                       @close="isDeleteModalOpen = false" @action="deleteProject">
       <template #title>
-        {{ $t('project.create.title') }}
+        Delete Project
       </template>
-      <FormAlertMessage :data="projectForm.formAlertMessage"/>
-      <FormFieldComponent v-for="field in projectForm" class="w-full" :field="field"/>
-      <template #action>
-        <Button color="bg-primary-800!" class="w-20" textColor="text-white" :loading="projectForm.isCreateLoading()"
-                @click="createProject">Create
-        </Button>
-        <Button @click="isModalOpen=false">Cancel</Button>
+      <template #description>
+        Are you sure you want to delete this project?
       </template>
-    </Modal>
-    <FormAlertMessage :data="projectForm.formSnackMessage"/>
+    </ConfirmationModal>
+    <FormAlertMessage :data="snackMessage"/>
   </div>
 </template>
 

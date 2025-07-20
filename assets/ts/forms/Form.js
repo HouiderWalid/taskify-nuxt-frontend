@@ -1,4 +1,5 @@
 import {getMessagesKeyFirstPartRemoved, isFunction, isObject} from "assets/ts/helpers/helpers.js";
+import {get} from "lodash-es";
 
 export default class Form {
 
@@ -6,7 +7,7 @@ export default class Form {
         create: false,
         list: false,
         save: false,
-        form: false,
+        delete: false,
         isVisible() {
             return false
         }
@@ -28,6 +29,7 @@ export default class Form {
         type: null,
         absolute: true,
         timeout: false,
+        form: false,
         content: null,
         isVisible() {
             return false
@@ -37,6 +39,15 @@ export default class Form {
     startFormLoading() {
         this.loading.form = true
         return this
+    }
+
+    endFormLoading() {
+        this.loading.form = false
+        return this
+    }
+
+    isFormLoading(){
+        return this.loading.form
     }
 
     startCreateLoading() {
@@ -53,13 +64,32 @@ export default class Form {
         return this.loading.create
     }
 
-    endFormLoading() {
-        this.loading.form = false
+    startSaveLoading() {
+        this.loading.save = true
         return this
     }
 
-    isFormLoading() {
-        return this.loading.form
+    endSaveLoading() {
+        this.loading.save = false
+        return this
+    }
+
+    isSaveLoading() {
+        return this.loading.save
+    }
+
+    startDeleteLoading() {
+        this.loading.delete = true
+        return this
+    }
+
+    endDeleteLoading() {
+        this.loading.delete = false
+        return this
+    }
+
+    isDeleteLoading() {
+        return this.loading.delete
     }
 
     setValidationMessages(messages) {
@@ -138,7 +168,6 @@ export default class Form {
         if (!isObject(data)) return this
 
         Object.keys(this).forEach(fieldKey => {
-            //console.log('field before', fieldKey)
 
             if (
                 !isFunction(this[fieldKey].setContent) ||
@@ -146,13 +175,11 @@ export default class Form {
                 (!this[fieldKey].hasOwnProperty('fieldName') && dataMatchingKeyType === 'fn')
             ) return
 
-            //console.log('field after', fieldKey)
-
             let content = null
             switch (dataMatchingKeyType) {
                 case "mk":
                     content = this[fieldKey].hasOwnProperty('modelKey')
-                        ? getValueByDotNotation(data, this[fieldKey].modelKey)
+                        ? get(data, this[fieldKey].modelKey)
                         : data
                     break;
                 case "fn":
@@ -160,9 +187,6 @@ export default class Form {
                     content = data[this[fieldKey].fieldName]
             }
 
-            //console.log('field model key', this[fieldKey].modelKey)
-            //console.log('field data', data)
-            //console.log('field content', content)
             if (content !== undefined) {
                 this[fieldKey].setContent(content, data[fieldKey], dataMatchingKeyType, other)
 
@@ -230,6 +254,11 @@ export default class Form {
         return this
     }
 
+    closeSnackMessage() {
+        this.formSnackMessage.open = false
+        return this
+    }
+
     setSuccessAlertMessage(message) {
         this.setAlertMessage(message, 'success')
         return this
@@ -237,6 +266,11 @@ export default class Form {
 
     setErrorAlertMessage(message) {
         this.setAlertMessage(message, 'error')
+        return this
+    }
+
+    closeAlertMessage(){
+        this.formAlertMessage.open = false
         return this
     }
 }

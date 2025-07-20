@@ -8,7 +8,7 @@ export type ApiData = {
     data?: JsonObject,
     method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
     uri: string,
-    query?: string,
+    query?: object,
     baseURL?: string,
     model?: any,
 }
@@ -22,17 +22,14 @@ export function useSyncFetchData<ResponseType extends typeof JsonMapper>(
         data = {},
         method = 'GET',
         uri,
-        query = undefined,
+        query = {},
         baseURL = import.meta.env.VITE_API_BASE_URL,
     }: ApiData
 ): CustomRequestBody<ResponseType> {
-
-    const uriObject = new URLSearchParams(query)
     const endPoint = [baseURL, uri].join('')
     const bodyData = Array.isArray(data)
         ? data.map((i: any) => JSON.stringify(i, apiRequestStringifier)).reduce((pi: object, i: any) => Object.assign(pi, JSON.parse(i)), {})
         : JSON.parse(JSON.stringify(data, apiRequestStringifier))
-    console.log('bodyData', bodyData)
     let headers: RawAxiosRequestHeaders | AxiosHeaders = {}
 
     const {accessToken} = useAuthenticationStore()
@@ -46,7 +43,7 @@ export function useSyncFetchData<ResponseType extends typeof JsonMapper>(
         data: bodyData,
         headers,
         params: {
-            ...uriObject,
+            ...query,
             timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
         }
     }))
@@ -133,14 +130,13 @@ export function useFetchData<ResponseType extends typeof JsonMapper>(
         data = {},
         method = 'GET',
         uri,
-        query = undefined,
+        query = {},
         baseURL = import.meta.env.VITE_API_BASE_URL,
         model
     }: ApiData,
 ): Promise<{ data: ResponseType, message?: null }> {
 
-    const uriObject = new URLSearchParams(query)
-    const endPoint = [baseURL, uri, '?', uriObject.toString()].join('')
+    const endPoint = [baseURL, uri].join('')
     const bodyData = Array.isArray(data)
         ? data.map((i: any) => JSON.stringify(i, apiRequestStringifier)).reduce((pi: object, i: any) => Object.assign(pi, JSON.parse(i)), {})
         : JSON.stringify(data, apiRequestStringifier)
@@ -157,6 +153,7 @@ export function useFetchData<ResponseType extends typeof JsonMapper>(
         data: bodyData,
         headers,
         params: {
+            ...query,
             timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
         }
     })

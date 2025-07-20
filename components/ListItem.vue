@@ -1,11 +1,11 @@
 <script setup lang="ts">
-definePageMeta({
-  layout: 'dashboard',
-})
+
 </script>
 
 <template>
-chat
+  <li class="px-4 py-2 hover:bg-primary-200 cursor-pointer">
+    <slot/>
+  </li>
 </template>
 
 <style scoped>

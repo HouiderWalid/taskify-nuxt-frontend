@@ -2,7 +2,7 @@
 
 import SignInForm from "assets/ts/forms/SignInForm";
 import Button from "~/components/io/Button.vue";
-import {useSignInApi} from "assets/ts/requestApis";
+import {useSignInApi} from "assets/ts/apis/AuthenticationApis";
 import AuthData from "assets/ts/models/AuthData";
 
 definePageMeta({
@@ -18,7 +18,6 @@ function signIn() {
       .onStart(() => signUpForm.emptyValidationMessages().startFormLoading())
       .onValidationErrors((messages:any) => signUpForm.setValidationMessages(messages))
       .onSuccess((authData:any) => {
-        console.log('authData', authData);
         setAuthData(authData);
         router.push('/')
       }, AuthData)
@@ -35,7 +34,7 @@ function signIn() {
         <div class="flex flex-col">
           <FormFieldComponent v-for="field in signUpForm" :field="field"/>
         </div>
-        <Button @click="signIn" :loading="signUpForm.isFormLoading()">Sign Up</Button>
+        <Button @click="signIn" variant="filled-reversed" :loading="signUpForm.isFormLoading()">Sign Up</Button>
       </form>
       <div class="mt-6 flex flex-col items-center">
         <div class="text-center text-md text-white/80">Don't have an account?</div>

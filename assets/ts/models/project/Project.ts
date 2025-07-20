@@ -1,4 +1,5 @@
 import JsonMappedModel from "assets/ts/helpers/JsonMappedModel";
+import TaskCollection from "assets/ts/models/task/TaskCollection";
 
 export default class Project extends JsonMappedModel {
 
@@ -6,11 +7,16 @@ export default class Project extends JsonMappedModel {
     static description_attribute_name = 'description'
     static due_date_attribute_name = 'due_date'
     static tasks_attribute_name = 'tasks'
+    static tasks_done_count_attribute_name = 'tasks_done_count'
+    static tasks_count_attribute_name = 'tasks_count'
 
     #attributes = {
         [Project.name_attribute_name]: null,
         [Project.description_attribute_name]: null,
-        [Project.due_date_attribute_name]: null
+        [Project.due_date_attribute_name]: null,
+        [Project.tasks_attribute_name]: TaskCollection,
+        [Project.tasks_done_count_attribute_name]: 0,
+        [Project.tasks_count_attribute_name]: 0,
     }
 
     constructor(data: any) {
@@ -30,6 +36,14 @@ export default class Project extends JsonMappedModel {
         return this.due_date_attribute_name
     }
 
+    static getTasksDoneCountAttributeName() {
+        return this.tasks_done_count_attribute_name
+    }
+
+    static getTasksCountAttributeName() {
+        return this.tasks_count_attribute_name
+    }
+
     getName() {
         return this.getAttribute(Project.getNameAttributeName())
     }
@@ -40,5 +54,13 @@ export default class Project extends JsonMappedModel {
 
     getDueDate() {
         return this.getAttribute(Project.getDueDateAttributeName())
+    }
+
+    getTasksDoneCount() {
+        return this.getAttribute(Project.getTasksDoneCountAttributeName()) ?? 0
+    }
+
+    getTasksCount() {
+        return this.getAttribute(Project.getTasksCountAttributeName()) ?? 0
     }
 }

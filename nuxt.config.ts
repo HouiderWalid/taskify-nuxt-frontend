@@ -18,7 +18,8 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         'pinia-plugin-persistedstate/nuxt',
         '@nuxtjs/i18n',
-        '@nuxt/test-utils/module'
+        '@nuxt/test-utils/module',
+        'nuxt-icon'
     ],
     i18n: {
         compilation: {

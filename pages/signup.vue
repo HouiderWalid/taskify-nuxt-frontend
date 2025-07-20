@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import SignUpForm from "assets/ts/forms/SignUpForm";
 import Button from "~/components/io/Button.vue";
-import {useSignupApi} from "assets/ts/requestApis";
+import {useSignupApi} from "assets/ts/apis/AuthenticationApis";
 import AuthData from "assets/ts/models/AuthData";
 
 definePageMeta({
@@ -34,7 +34,7 @@ function signup() {
         <div class="flex flex-col">
           <FormFieldComponent v-for="field in signupForm" :field="field"/>
         </div>
-        <Button @click="signup" :loading="signupForm.isFormLoading()">Sign Up</Button>
+        <Button @click="signup" variant="filled-reversed" :loading="signupForm.isFormLoading()">Sign Up</Button>
       </form>
       <div class="mt-6 flex flex-col items-center">
         <div class="text-center text-md text-white/80">Already have an account?</div>
