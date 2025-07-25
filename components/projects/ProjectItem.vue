@@ -2,7 +2,6 @@
 import Project from "assets/ts/models/project/Project";
 import ProgressBar from "~/components/ProgressBar.vue";
 import Button from "~/components/io/Button.vue";
-import {mdiDotsVertical} from "@mdi/js"
 import ListItem from "~/components/ListItem.vue";
 import List from "~/components/List.vue";
 
@@ -13,7 +12,8 @@ const description = computed(() => props.project instanceof Project ? props.proj
 const dueDate = computed(() => props.project instanceof Project ? props.project.getDueDate() : null)
 const tasksCount = computed(() => props.project.getTasksCount())
 const tasksDoneCount = computed(() => props.project.getTasksDoneCount())
-const progress = computed(() => props.project instanceof Project ? tasksCount.value > 0 ? tasksDoneCount.value * 100 / tasksCount.value : 100 : 100)
+const progress = computed(() => Number(props.project instanceof Project ? tasksCount.value > 0 ? tasksDoneCount.value * 100 / tasksCount.value : 100 : 100).toFixed(2))
+const teamMembers = computed(() => props.project instanceof Project ? props.project.getTasksAssignedMembersCount() : 0)
 </script>
 
 <template>
@@ -22,23 +22,31 @@ const progress = computed(() => props.project instanceof Project ? tasksCount.va
       <div class="flex flex-col gap-4">
         <div class="flex gap-2 items-center">
           <span class="text-2xl font-bold">{{ name }}</span>
-          <Menu>
-            <template #activator="props">
-              <Button v-bind="props" icon="dots-vertical"/>
-            </template>
-            <List>
-              <ListItem @click="emit('edit', project)">Edit</ListItem>
-              <ListItem @click="emit('delete', project)">Delete</ListItem>
-            </List>
-          </Menu>
         </div>
-        <span>{{ description }}</span>
+        <span class="text-gray-500">{{ description }}</span>
       </div>
-      <span class="text-gray-600 text-sm">{{ dueDate }}</span>
+      <Menu>
+        <template #activator="props">
+          <Button v-bind="props" icon="dots-vertical"/>
+        </template>
+        <List>
+          <ListItem @click="emit('edit', project)">{{ $t('project.item.buttons.edit') }}</ListItem>
+          <ListItem @click="emit('delete', project)">{{ $t('project.item.buttons.delete') }}</ListItem>
+        </List>
+      </Menu>
     </div>
     <div class="flex flex-col gap-4">
-      <ProgressBar :value="progress"/>
-      <span class="text-gray-600 text-sm">team: 5 members</span>
+      <ProgressBar :value="progress" :title="$t('project.item.progress')"/>
+      <div class="flex text-sm gap-8">
+        <div class="flex gap-2">
+          <span class="text-gray-500">{{ $t('project.item.team') }}</span>
+          <span>{{ teamMembers }}</span>
+        </div>
+        <div class="flex gap-2">
+          <span class="text-gray-600">{{ $t('project.item.due_date') }}</span>
+          <span>{{ dueDate }}</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>

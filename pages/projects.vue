@@ -13,9 +13,11 @@ import Project from "assets/ts/models/project/Project";
 import ConfirmationModal from "~/components/ConfirmationModal.vue";
 import ProjectFormModal from "~/components/projects/ProjectFormModal.vue";
 import useSnackManager from "~/composables/useSnackManager";
+import Permission from "assets/ts/models/permission/Permission";
 
 definePageMeta({
   layout: 'dashboard',
+  permission: Permission.VIEW_PROJECTS
 })
 
 const isFormModalOpen = ref(false)
@@ -77,6 +79,11 @@ function getFilteredPerPageProjects(perPage: number) {
   getFilteredProjects()
 }
 
+function getFilteredPageProjects(page: number) {
+  data.pagination.setCurrentPage(page)
+  getFilteredProjects()
+}
+
 function getFilteredProjects(projectPagination?: ProjectPagination) {
   if (projectPagination) {
     data.pagination = projectPagination
@@ -103,28 +110,30 @@ onMounted(() => {
 <template>
   <div class="flex flex-col gap-4">
     <div class="flex justify-between items-center">
-      <span class="font-bold text-2xl">Projects</span>
-      <Button @click="createNewProject" variant="filled">New Project</Button>
+      <span class="font-bold text-2xl">{{ $t('project.title') }}</span>
+      <Button @click="createNewProject" variant="filled">
+        {{ $t('project.buttons.newProjects') }}
+      </Button>
     </div>
 
-    <PaginatedItems :locading="isListLoading" :pagination="data.pagination"
-                    @perPage="getFilteredPerPageProjects">
+    <PaginatedItems :loading="isListLoading" :pagination="data.pagination"
+                    @perPage="getFilteredPerPageProjects" @page="getFilteredPageProjects">
       <template #item="{item}">
         <ProjectItem :project="item" @edit="editProject" @delete="deleteProjectConfirmation"/>
       </template>
     </PaginatedItems>
 
     <ProjectFormModal v-model="isFormModalOpen" :project="selectedProject" :pagination="data.pagination"
-                   @paginate="getFilteredProjects" @success-snack-message="setSuccessMessage"
-                   @cancel="isFormModalOpen = false" @close="isFormModalOpen = false"/>
+                      @paginate="getFilteredProjects" @success-snack-message="setSuccessMessage"
+                      @cancel="isFormModalOpen = false" @close="isFormModalOpen = false"/>
 
     <ConfirmationModal v-model="isDeleteModalOpen" :loading="deleteLoading"
                        @close="isDeleteModalOpen = false" @action="deleteProject">
       <template #title>
-        Delete Project
+        {{ $t('project.dialogs.delete.title') }}
       </template>
       <template #description>
-        Are you sure you want to delete this project?
+        {{ $t('project.dialogs.delete.description') }}
       </template>
     </ConfirmationModal>
     <FormAlertMessage :data="snackMessage"/>

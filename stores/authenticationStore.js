@@ -1,5 +1,6 @@
 import {defineStore} from "pinia";
 import AuthData from "assets/ts/models/AuthData.ts";
+import User from "assets/ts/models/user/User.js";
 
 export const useAuthenticationStore = defineStore('authenticationStore', () => {
 
@@ -15,8 +16,12 @@ export const useAuthenticationStore = defineStore('authenticationStore', () => {
             user.value = authData.getUser()
         }
 
-        function setUser(user) {
-            user.value = user
+        function setUser(newUser) {
+            user.value = JSON.parse(JSON.stringify(newUser))
+        }
+
+        function getUser() {
+            return user.value ? user.value instanceof User ? user.value : new User(user.value) : null
         }
 
         function signOut() {
@@ -24,17 +29,24 @@ export const useAuthenticationStore = defineStore('authenticationStore', () => {
             user.value = null
         }
 
+        function isPermitted(permission) {
+            const authUser = getUser()
+            return authUser instanceof User && authUser.isPermitted(permission)
+        }
+
         return {
             accessToken,
             setAuthData,
             setUser,
             signOut,
-            user
+            getUser,
+            isPermitted
         }
     },
     {
         persist: {
             storage: piniaPluginPersistedstate.cookies(),
             pick: ['accessToken']
-        }
+        },
+        devtools: {autoSerialize: false}
     })

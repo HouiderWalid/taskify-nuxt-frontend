@@ -6,13 +6,12 @@ import ProjectForm from "assets/ts/forms/ProjectForm";
 import {useCreateProjectApi, useUpdateProjectApi} from "assets/ts/apis/ProjectApis";
 import ProjectPagination from "assets/ts/models/project/ProjectPagination";
 import Project from "assets/ts/models/project/Project";
-import Task from "assets/ts/models/task/Task";
 
 const props = defineProps(['project', 'pagination'])
 const emit = defineEmits(['close', 'cancel', 'paginate', 'successSnackMessage'])
 const modal = defineModel()
 const projectForm = reactive(new ProjectForm())
-const modalTitle = computed(() => props.project instanceof Project ? 'Create a project' : 'Update project')
+const modalTitle = computed(() => ['project.dialogs.form.title', props.project instanceof Project ? 'edit' : 'create'].join('.'))
 
 function createProject() {
   useSyncFetchData(useCreateProjectApi(projectForm, {
@@ -73,13 +72,15 @@ watch(modal, newValue => {
     <template #action>
       <Button v-if="!props.project" class="w-20" variant="filled"
               :loading="projectForm.isCreateLoading()" @click="createProject">
-        Create
+        {{ $t('project.dialogs.form.buttons.create') }}
       </Button>
       <Button v-if="props.project" class="w-20" variant="filled"
               :loading="projectForm.isSaveLoading()" @click="updateProject">
-        Save
+        {{ $t('project.dialogs.form.buttons.edit') }}
       </Button>
-      <Button @close="emit('cancel')">Cancel</Button>
+      <Button @close="emit('cancel')">
+        {{ $t('project.dialogs.form.buttons.cancel') }}
+      </Button>
     </template>
   </Modal>
 </template>

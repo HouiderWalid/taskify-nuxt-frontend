@@ -4,11 +4,15 @@ const {
   loading = false,
   variant = 'plain',
   disabled = false,
-} = defineProps(['loading', 'icon', 'variant', 'disabled']);
+  to
+} = defineProps(['loading', 'icon', 'variant', 'disabled', 'to']);
 
+const emit = defineEmits(['click']);
+
+const router = useRouter()
 const variantStyle = computed(() => {
 
-  if (disabled){
+  if (disabled) {
     return 'bg-gray-200 text-gray-500';
   }
 
@@ -19,14 +23,25 @@ const variantStyle = computed(() => {
       return 'bg-white! text-primary-800!'
     case 'outlined':
       return 'border border-primary-800 text-primary-800 hover:bg-primary-200'
+    case 'outlined-reversed':
+      return 'border border-white-800 text-white-800 hover:bg-white-200'
     case 'plain':
       return 'text-primary-800 hover:bg-primary-200'
   }
 })
+
+function onClick(e: MouseEvent) {
+  if (to) {
+    router.push(to)
+    return
+  }
+
+  emit('click', e)
+}
 </script>
 
 <template>
-  <button type="button"
+  <button type="button" @click="onClick"
           :class="[{'px-5 py-2.5 rounded-lg':!icon, 'px-2 h-10 w-10 rounded-full':icon}, variantStyle]"
           class="flex justify-center items-center gap scale-100 active:scale-95 cursor-pointer text-md text-center">
     <div class="flex justify-center h-5 items-center">

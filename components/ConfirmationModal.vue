@@ -16,10 +16,10 @@ const model = defineModel()
     <template #action>
       <Button class="w-20" :loading="loading"
               @click="emit('action', true)">
-        Yes
+        {{ $t('confirmationModal.buttons.yes') }}
       </Button>
       <Button class="w-20" variant="filled" @click="emit('action', false)">
-        No
+        {{ $t('confirmationModal.buttons.no') }}
       </Button>
     </template>
   </Modal>

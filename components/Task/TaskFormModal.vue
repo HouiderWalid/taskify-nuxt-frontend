@@ -11,7 +11,7 @@ import UserCollection from "assets/ts/models/user/UserCollection";
 
 const props = defineProps(['task', 'pagination'])
 const emit = defineEmits(['close', 'cancel', 'paginate', 'successSnackMessage'])
-const modalTitle = computed(() => props.task instanceof Task ? 'Create a task' : 'Update task')
+const modalTitle = computed(() => ['task.dialogs.form.title', props.task instanceof Task ? 'edit' : 'create'].join('.'))
 const taskForm = reactive(new TaskForm())
 const modal = defineModel()
 
@@ -92,13 +92,15 @@ watch(modal, newValue => {
     <template #action>
       <Button v-if="!props.task" class="w-20" variant="filled"
               :loading="taskForm.isCreateLoading()" @click="createTask">
-        Create
+        {{ $t('task.dialogs.form.buttons.create') }}
       </Button>
       <Button v-if="props.task" class="w-20" variant="filled"
               :loading="taskForm.isSaveLoading()" @click="updateTask">
-        Save
+        {{ $t('task.dialogs.form.buttons.save') }}
       </Button>
-      <Button @click="emit('cancel')">Cancel</Button>
+      <Button @click="emit('cancel')">
+        {{ $t('task.dialogs.form.buttons.cancel') }}
+      </Button>
     </template>
   </Modal>
 </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {get, isObjectLike} from "lodash-es";
-import ListObjectItem from "~/components/io/select/ListObjectItem.vue";
+import ListObjectItem from "~/components/io/select/ListObjectItem";
 
 const props = defineProps({
   id: {
@@ -104,7 +104,7 @@ onUnmounted(() => {
                           :item-text-key="props.itemTextKey" :item-value-key="props.itemValueKey"/>
         </template>
         <template v-else>
-          <li class="p-2">no item found in this list.</li>
+          <li class="p-2">{{ $t('components.autocomplete.noResultsFound') }}</li>
         </template>
       </List>
     </div>

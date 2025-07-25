@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {isObjectLike, get} from "lodash-es/lodash";
+import {isObjectLike, get} from "lodash-es";
 
 const props = defineProps(['option', 'optionValueKey', 'optionTextKey'])
 const value = computed(() => isObjectLike(props.option) ? get(props.option, props.optionValueKey) : props.option)

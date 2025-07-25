@@ -7,10 +7,10 @@ export default class ProjectForm extends Form {
     title = {
         id: 'project-title',
         modelKey: Project.getNameAttributeName(),
-        fieldTitle: 'project.form.fields.title.title',
+        fieldTitle: 'project.dialogs.form.fields.title.title',
         fieldName: 'name',
         component: 'TextField',
-        placeholder: 'Enter the project title',
+        placeholder: 'project.dialogs.form.fields.title.placeholder',
         content: null,
         messages: [],
         setContent(content: any) {
@@ -24,7 +24,7 @@ export default class ProjectForm extends Form {
     dueDate = {
         id: 'project-due-date',
         modelKey: Project.getDueDateAttributeName(),
-        fieldTitle: 'project.form.fields.due_date.title',
+        fieldTitle: 'project.dialogs.form.fields.due_date.title',
         fieldName: 'due_date',
         type: 'datetime-local',
         component: 'DatePicker',
@@ -44,10 +44,10 @@ export default class ProjectForm extends Form {
     description = {
         id: 'project-description',
         modelKey: Project.getDescriptionAttributeName(),
-        fieldTitle: 'project.form.fields.description.title',
+        fieldTitle: 'project.dialogs.form.fields.description.title',
         fieldName: 'description',
         component: 'TextArea',
-        placeholder: 'Describe your project',
+        placeholder: 'project.dialogs.form.fields.description.placeholder',
         content: null,
         messages: [],
         setContent(content: any) {

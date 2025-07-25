@@ -9,10 +9,10 @@ export default class TaskForm extends Form {
     project = {
         id: 'task-project',
         modelKey: Task.getProjectAttributeName(),
-        fieldTitle: 'task.form.fields.project.title',
+        fieldTitle: 'task.dialogs.form.fields.project.title',
         fieldName: 'project_id',
         component: 'Autocomplete',
-        placeholder: 'task.form.fields.project.placeholder',
+        placeholder: 'task.dialogs.form.fields.project.placeholder',
         itemTextKey: Project.getNameAttributeName(),
         itemValueKey: Project.getIdAttributeName(),
         loading: false,
@@ -40,11 +40,11 @@ export default class TaskForm extends Form {
 
     member = {
         id: 'task-member',
-        modelKey: Task.getProjectAttributeName(),
-        fieldTitle: 'task.form.fields.member.title',
+        modelKey: Task.getAssignedToUserAttributeName(),
+        fieldTitle: 'task.dialogs.form.fields.member.title',
         fieldName: 'member_id',
         component: 'Autocomplete',
-        placeholder: 'task.form.fields.member.placeholder',
+        placeholder: 'task.dialogs.form.fields.member.placeholder',
         itemTextKey: User.getFullNameAttributeName(),
         itemValueKey: User.getIdAttributeName(),
         loading: false,
@@ -73,10 +73,10 @@ export default class TaskForm extends Form {
     title = {
         id: 'task-title',
         modelKey: Task.getTitleAttributeName(),
-        fieldTitle: 'task.form.fields.title.title',
+        fieldTitle: 'task.dialogs.form.fields.title.title',
         fieldName: 'title',
         component: 'TextField',
-        placeholder: 'task.form.fields.title.placeholder',
+        placeholder: 'task.dialogs.form.fields.title.placeholder',
         content: null,
         messages: [],
         setContent(content: any) {
@@ -90,7 +90,7 @@ export default class TaskForm extends Form {
     dueDate = {
         id: 'task-due-date',
         modelKey: Task.getDueDateAttributeName(),
-        fieldTitle: 'task.form.fields.due_date.title',
+        fieldTitle: 'task.dialogs.form.fields.due_date.title',
         fieldName: 'due_date',
         type: 'datetime-local',
         component: 'DatePicker',
@@ -110,7 +110,7 @@ export default class TaskForm extends Form {
     priority = {
         id: 'task-priority',
         modelKey: Task.getPriorityAttributeName(),
-        fieldTitle: 'task.form.fields.priority.title',
+        fieldTitle: 'task.dialogs.form.fields.priority.title',
         fieldName: 'priority',
         component: 'RadioButton',
         content: Task.LOW_PRIORITY,
@@ -134,10 +134,10 @@ export default class TaskForm extends Form {
     description = {
         id: 'task-description',
         modelKey: Task.getDescriptionAttributeName(),
-        fieldTitle: 'task.form.fields.description.title',
+        fieldTitle: 'task.dialogs.form.fields.description.title',
         fieldName: 'description',
         component: 'TextArea',
-        placeholder: 'task.form.fields.description.placeholder',
+        placeholder: 'task.dialogs.form.fields.description.placeholder',
         content: null,
         messages: [],
         setContent(content: any) {

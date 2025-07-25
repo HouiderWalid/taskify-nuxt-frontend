@@ -76,15 +76,15 @@ class CustomRequestBody<ResponseType extends typeof JsonMapper> {
         return this
     }
 
-    onSuccess = (callBack: Function, Model: any) => {
+    onSuccess = (callBack: Function, Model?: any) => {
 
         this.#request.then((response: any) => {
             const responseCode = response.data.code
             const responseMessage = response.data.messages
             if (!responseCode) {
-                return new Model(response)
+                return Model ? new Model(response) : new Response(response.data)
             } else if (responseCode > 199 && responseCode < 299) {
-                callBack(Model ? new Model(response.data.data) : response.data.data, responseMessage)
+                callBack(Model ? new Model(response.data.data) : new Response(response.data), responseMessage)
             }
         })
 

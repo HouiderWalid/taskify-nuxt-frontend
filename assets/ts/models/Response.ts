@@ -6,30 +6,22 @@ export default class Response extends JsonMapper {
     static data_attribute_name = 'data'
     static messages_attribute_name = 'messages'
 
-    static ATTRIBUTES = {
-        [this.code_attribute_name]: null,
-        [this.data_attribute_name]: null,
-        [this.messages_attribute_name]: null,
+    #attributes = {
+        [Response.code_attribute_name]: null,
+        [Response.data_attribute_name]: null,
+        [Response.messages_attribute_name]: null,
     }
 
     constructor(data: any) {
         super()
-        this.map(data, Response.ATTRIBUTES)
+        this.map(data, this.#attributes)
     }
 
     static getDataAttributeName() {
         return Response.data_attribute_name
     }
 
-    getResponseData() {
+    getData() {
         return this.getAttribute(Response.getDataAttributeName())
-    }
-
-    getVisitId() {
-        return this.getResponseData()?.['visit_id'] ?? null
-    }
-
-    getPublishableKey() {
-        return this.getResponseData()?.['publishable_key'] ?? null
     }
 }

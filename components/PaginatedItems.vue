@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import Pagination from "assets/ts/models/Pagination";
 
-const props = defineProps(['pagination', 'locading'])
+const props = defineProps(['pagination', 'loading'])
 const items = computed(() => props.pagination instanceof Pagination ? props.pagination.getData() : [])
 </script>
 
 <template>
   <div class="flex flex-col gap-8">
     <PaginationWrapper :pagination="props.pagination" v-bind="$attrs"/>
-    <div v-if="props.locading" class="h-56 w-full bg-gray-600 rounded-md animate-pulse"/>
+    <div v-if="props.loading" class="h-56 w-full bg-gray-600 rounded-md animate-pulse"/>
     <template v-else>
       <template v-if="items.length">
         <slot v-for="item in items" :item="item" name="item"/>

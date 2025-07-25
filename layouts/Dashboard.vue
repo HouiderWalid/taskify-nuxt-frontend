@@ -2,34 +2,52 @@
 import Button from "~/components/io/Button.vue";
 import {useAuthenticationStore} from "~/stores/authenticationStore";
 import User from "assets/ts/models/user/User";
-import {mdiLogout} from "@mdi/js"
+import Permission from "assets/ts/models/permission/Permission";
 
-const {user, signOut} = useAuthenticationStore();
+const {getUser, signOut, isPermitted} = useAuthenticationStore();
+const user = getUser();
 const fullName = user instanceof User ? user.getFullName() : null
 const nameLetters = String(fullName).split(' ').map(name => String(name).charAt(0).toUpperCase()).join('');
 const localePath = useLocalePath()
 const router = useRouter()
+const {locale} = useI18n()
+const direction = computed(()=>locale.value === 'ar' ? 'rtl' : 'ltr')
 
 const navigationList = [
   {
     link: '/',
-    name: 'Overview'
+    name: 'overview',
+    translation: 'navbar.overview',
+    icon: 'mdi:view-dashboard',
+    permission: Permission.VIEW_OVERVIEW
   },
   {
     link: '/projects',
-    name: 'Projects'
+    name: 'projects',
+    translation: 'navbar.projects',
+    icon: 'mdi:folder',
+    permission: Permission.VIEW_PROJECTS
   },
   {
     link: '/tasks',
-    name: 'Tasks'
+    name: 'tasks',
+    translation: 'navbar.tasks',
+    icon: 'mdi:note-outline',
+    permission: Permission.VIEW_TASKS
   },
   {
     link: '/users',
-    name: 'Users'
+    name: 'users',
+    translation: 'navbar.users',
+    icon: 'mdi:account',
+    permission: Permission.VIEW_USERS
   },
   {
     link: '/settings',
-    name: 'Settings'
+    name: 'settings',
+    translation: 'navbar.settings',
+    icon: 'mdi:cog',
+    permission: Permission.VIEW_SETTINGS
   }
 ]
 
@@ -41,13 +59,14 @@ function signOutCall() {
 </script>
 
 <template>
-  <div class="h-screen bg-primary-50">
+  <div :dir="direction" class="h-screen overflow-auto bg-primary-50">
     <div class="bg-white shadow-sm flex justify-center">
       <div class="bg-white w-full max-w-6xl p-4 px-6 flex justify-center items-center">
         <div class="w-full">
           <span class="text-3xl text-primary-800 font-bold">Taskify</span>
         </div>
         <div class="flex gap-4 items-center justify-center">
+          <LanguageInput/>
           <div class="rounded-full flex justify-center text-xs items-center bg-primary-800 text-white h-9 w-9">
             {{ nameLetters }}
           </div>
@@ -58,11 +77,15 @@ function signOutCall() {
     <div class="flex justify-center">
       <div class="w-full max-w-6xl flex gap-10 px-6 py-10">
         <div class="w-72 flex flex-col gap-2">
-          <NuxtLink v-for="(item, i) in navigationList" :key="i"
-                    active-class="bg-primary-800 text-white! hover:bg-primary-800"
-                    class="px-4 py-3 rounded-2xl text-gray-600! hover:bg-primary-100" :to="localePath({path: item.link})">
-            {{ item.name }}
-          </NuxtLink>
+          <template v-for="(item, i) in navigationList">
+            <NuxtLink v-if="isPermitted(item.permission)" :key="i"
+                      active-class="bg-primary-800 text-white! hover:bg-primary-800"
+                      class="flex items-center gap-3 px-4 py-3 rounded-2xl text-gray-600! hover:bg-primary-100"
+                      :to="localePath( {path: item.link})">
+              <Icon :name="item.icon" size="20"/>
+              <span>{{ $t(item.translation) }}</span>
+            </NuxtLink>
+          </template>
         </div>
         <div class="text-black w-full">
           <slot/>

@@ -1,12 +1,15 @@
-export default class Role {
+import JsonMappedModel from "assets/ts/helpers/JsonMappedModel";
 
-    static PERMISSIONS = {
-        SIDE_BAR_OVERVIEW: {
-            ID: '1'
-        },
-        SIDE_BAR_USERS: {
-            ID: '6'
-        }
+export default class Role extends JsonMappedModel {
+
+    static name_attribute_name = 'name'
+
+    #attributes = {
+        [Role.name_attribute_name]: null
     }
 
+    constructor(data: any) {
+        super();
+        this.map(data, this.#attributes)
+    }
 }

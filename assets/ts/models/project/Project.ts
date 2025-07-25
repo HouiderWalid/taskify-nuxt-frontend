@@ -9,6 +9,7 @@ export default class Project extends JsonMappedModel {
     static tasks_attribute_name = 'tasks'
     static tasks_done_count_attribute_name = 'tasks_done_count'
     static tasks_count_attribute_name = 'tasks_count'
+    static task_assigned_members_count_attribute_name = 'task_assigned_members_count'
 
     #attributes = {
         [Project.name_attribute_name]: null,
@@ -17,6 +18,7 @@ export default class Project extends JsonMappedModel {
         [Project.tasks_attribute_name]: TaskCollection,
         [Project.tasks_done_count_attribute_name]: 0,
         [Project.tasks_count_attribute_name]: 0,
+        [Project.task_assigned_members_count_attribute_name]: 0,
     }
 
     constructor(data: any) {
@@ -44,6 +46,10 @@ export default class Project extends JsonMappedModel {
         return this.tasks_count_attribute_name
     }
 
+    static getTasksAssignedMembersCountAttributeName() {
+        return this.task_assigned_members_count_attribute_name
+    }
+
     getName() {
         return this.getAttribute(Project.getNameAttributeName())
     }
@@ -62,5 +68,9 @@ export default class Project extends JsonMappedModel {
 
     getTasksCount() {
         return this.getAttribute(Project.getTasksCountAttributeName()) ?? 0
+    }
+
+    getTasksAssignedMembersCount() {
+        return this.getAttribute(Project.getTasksAssignedMembersCountAttributeName()) ?? 0
     }
 }

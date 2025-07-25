@@ -35,27 +35,59 @@ export default class Task extends JsonMappedModel {
         this.map(data, this.#attributes)
     }
 
-    static getTitleAttributeName(){
+    static getTitleAttributeName() {
         return this.title_attribute_name
     }
 
-    static getDescriptionAttributeName(){
+    static getDescriptionAttributeName() {
         return this.description_attribute_name
     }
 
-    static getProjectAttributeName(){
+    static getProjectAttributeName() {
         return this.project_attribute_name
     }
 
-    static getDueDateAttributeName(){
+    static getDueDateAttributeName() {
         return this.due_date_attribute_name
     }
 
-    static getStatusAttributeName(){
+    static getStatusAttributeName() {
         return this.status_attribute_name
     }
 
-    static getPriorityAttributeName(){
+    static getPriorityAttributeName() {
         return this.priority_attribute_name
+    }
+
+    static getAssignedToUserAttributeName() {
+        return this.assigned_to_user_attribute_name
+    }
+
+    getTitle() {
+        return this.getAttribute(Task.title_attribute_name);
+    }
+
+    getDescription() {
+        return this.getAttribute(Task.getDescriptionAttributeName());
+    }
+
+    getDueDate() {
+        return this.getAttribute(Task.getDueDateAttributeName());
+    }
+
+    getAssignedToUser() {
+        return this.getAttribute(Task.getAssignedToUserAttributeName());
+    }
+
+    getProject() {
+        return this.getAttribute(Task.getProjectAttributeName());
+    }
+
+    getPriority() {
+        return this.getAttribute(Task.getPriorityAttributeName());
+    }
+
+    getStatus() {
+        return this.getAttribute(Task.getStatusAttributeName());
     }
 }

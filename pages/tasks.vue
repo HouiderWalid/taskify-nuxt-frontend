@@ -11,9 +11,12 @@ import TaskPagination from "assets/ts/models/task/TaskPagination";
 import ConfirmationModal from "~/components/ConfirmationModal.vue";
 import PaginatedItems from "~/components/PaginatedItems.vue";
 import useSnackManager from "~/composables/useSnackManager";
+import TaskFormModal from "~/components/Task/TaskFormModal.vue";
+import Permission from "assets/ts/models/permission/Permission";
 
 definePageMeta({
   layout: 'dashboard',
+  permission: Permission.VIEW_TASKS
 })
 
 const selectedTask = ref()
@@ -60,6 +63,11 @@ function getFilteredPerPageTasks(perPage: number) {
   getFilteredTasks()
 }
 
+function getFilteredPageTasks(page: number) {
+  data.pagination.setCurrentPage(page)
+  getFilteredTasks()
+}
+
 function editTask(project: Task) {
   selectedTask.value = project
   isFormModalOpen.value = true
@@ -100,14 +108,14 @@ onMounted(() => {
 <template>
   <div class="flex flex-col gap-4">
     <div class="flex justify-between items-center">
-      <span class="font-bold text-2xl">Tasks</span>
-      <Button @click="createNewTask" variant="filled">New Task</Button>
+      <span class="font-bold text-2xl">{{ $t('task.title') }}</span>
+      <Button @click="createNewTask" variant="filled">{{ $t('task.buttons.title') }}</Button>
     </div>
 
-    <PaginatedItems :locading="isListLoading" :pagination="data.pagination"
-                    @perPage="getFilteredPerPageTasks">
+    <PaginatedItems :loading="isListLoading" :pagination="data.pagination"
+                    @perPage="getFilteredPerPageTasks" @page="getFilteredPageTasks">
       <template #item="{item}">
-        <TaskItem :project="item" @edit="editTask" @delete="deleteTaskConfirmation"/>
+        <TaskItem :task="item" @edit="editTask" @delete="deleteTaskConfirmation"/>
       </template>
     </PaginatedItems>
 
@@ -120,10 +128,10 @@ onMounted(() => {
     <ConfirmationModal v-model="isDeleteModalOpen" :loading="deleteLoading"
                        @close="isDeleteModalOpen = false" @action="deleteTask">
       <template #title>
-        Delete Task
+        {{ $t('task.dialogs.delete.title') }}
       </template>
       <template #description>
-        Are you sure you want to delete this task?
+        {{ $t('task.dialogs.delete.description') }}
       </template>
     </ConfirmationModal>
   </div>

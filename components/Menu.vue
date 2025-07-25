@@ -5,8 +5,7 @@ const id = v4()
 const isOpen = ref(false)
 const menuRef = ref()
 
-function onActivated(e: MouseEvent) {
-  e.stopPropagation()
+function onActivated() {
   isOpen.value = !isOpen.value
 }
 
@@ -35,7 +34,7 @@ onUnmounted(()=>{
 
 <template>
   <div class="relative">
-    <slot name="activator" @click="onActivated"/>
+    <slot name="activator" @click.stop="onActivated"/>
     <div ref="menuRef" :id="id" :class="{'hidden':!isOpen}"
          class="absolute z-10 top-[50px] bg-white rounded-lg">
       <slot></slot>

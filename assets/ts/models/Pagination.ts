@@ -48,7 +48,7 @@ export default class Pagination extends JsonMapper {
     }
 
     getTotalPages() {
-        return this.getTotalItems() / this.getPerPage()
+        return Math.ceil(this.getTotalItems() / this.getPerPage())
     }
 
     getData() {
@@ -57,6 +57,11 @@ export default class Pagination extends JsonMapper {
 
     setPerPage(perPage: number) {
         this.setAttribute(Pagination.getPerPageAttributeName(), perPage)
+        return this
+    }
+
+    setCurrentPage(page: number) {
+        this.setAttribute(Pagination.getCurrentPageAttributeName(), page)
         return this
     }
 }

@@ -40,12 +40,12 @@ const model = defineModel()
         {{ $t(props.label) }}
       </label>
       <select v-model="model" @change="emit('change')"
-              class="bg-white border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-16 p-2.5">
+              class="bg-white border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 ps-3 pe-10 block">
         <SelectFieldOption v-for="item in props.items" :option="item" :option-value-key="props.itemValueKey"
                            :option-text-key="props.itemTextKey"/>
       </select>
     </div>
-    <div v-if="!props.hideDetails" class="text-red-400 h-5 text-xs mt-0.5"> {{ firstMessage }}</div>
+    <div v-if="!props.hideDetails" class="text-red-400 h-5 text-xs mt-0.5">{{ firstMessage }}</div>
   </div>
 </template>
 

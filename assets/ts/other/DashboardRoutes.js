@@ -25,6 +25,11 @@ export default class DashboardRoutes {
         PATH: '/settings'
     }
 
+    static NOT_PERMITTED = {
+        NAME: 'not-permitted',
+        PATH: '/not-permitted'
+    }
+
     static getAllRoutes(){
         return [
             this.OVERVIEW,
@@ -32,6 +37,7 @@ export default class DashboardRoutes {
             this.PROJECTS,
             this.USERS,
             this.SETTINGS,
+            this.NOT_PERMITTED,
         ]
     }
 

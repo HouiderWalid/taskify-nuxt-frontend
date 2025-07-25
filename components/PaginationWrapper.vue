@@ -29,9 +29,9 @@ const perPage = computed({
 })
 const perPageList = [
   {value: 5, text: '5'},
-  {value: 10, text: '10'},
   {value: 15, text: '15'},
-  {value: -1, text: 'All'}
+  {value: 50, text: '50'},
+  //{value: -1, text: 'All'}
 ]
 </script>
 
@@ -40,31 +40,31 @@ const perPageList = [
     <nav aria-label="Page navigation example">
       <ul class="flex items-center gap-2 h-10 text-base">
         <li>
-          <Button :disabled="!previousPageEnabled" icon="chevron-left"/>
+          <Button :disabled="!previousPageEnabled" @click="emit('page', currentPage - 1)" icon="chevron-left"/>
         </li>
         <li v-if="hasFirstPage">
           <Button @click="emit('page', 1)">1</Button>
         </li>
-        <li class="px-4 h-10 flex items-center justify-center bg-white border border-gray-300" v-if="hasPreviousDots">
+        <li class="px-4 h-10 flex items-center justify-center" v-if="hasPreviousDots">
           ...
         </li>
         <li v-for="page in pagesBeforeCurrent">
           <Button @click="emit('page', page)">{{ page }}</Button>
         </li>
         <li>
-          <Button class="bg-primary-200!">{{ currentPage }}</Button>
+          <Button class="bg-primary-800! text-white!">{{ currentPage }}</Button>
         </li>
         <li v-for="page in pagesAfterCurrent">
           <Button @click="emit('page', page)">{{ page }}</Button>
         </li>
-        <li class="px-4 h-10 flex items-center justify-center bg-white border border-gray-300" v-if="hasNextDots">
+        <li class="px-4 h-10 flex items-center justify-center" v-if="hasNextDots">
           ...
         </li>
         <li v-if="hasLastPage">
           <Button @click="emit('page', totalPages)">{{ totalPages }}</Button>
         </li>
         <li>
-          <Button :disabled="!nextPageEnabled" icon="chevron-right"/>
+          <Button :disabled="!nextPageEnabled" @click="emit('page', currentPage + 1)" icon="chevron-right"/>
         </li>
       </ul>
     </nav>
