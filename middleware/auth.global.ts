@@ -13,6 +13,9 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const localePath = useLocalePath()
     const user = getUser()
 
+    console.log('user', user)
+    console.log('accessToken', useAuthenticationStore().accessToken)
+
     let authUser = null
     if (accessToken && !(user instanceof User)) {
 

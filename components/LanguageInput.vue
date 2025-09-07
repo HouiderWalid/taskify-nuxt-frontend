@@ -21,9 +21,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <SelectField v-model="language" :items="languageList" @update:model-value="setLocale" :hide-details="true">
-
-  </SelectField>
+  <SelectField v-model="language" :items="languageList" @update:model-value="setLocale" :hide-details="true"/>
 </template>
 
 <style scoped>

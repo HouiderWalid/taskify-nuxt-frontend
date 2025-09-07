@@ -1,11 +1,12 @@
 <script setup lang="ts">
 
 const {
+  id,
   loading = false,
   variant = 'plain',
   disabled = false,
   to
-} = defineProps(['loading', 'icon', 'variant', 'disabled', 'to']);
+} = defineProps(['id', 'loading', 'icon', 'variant', 'disabled', 'to']);
 
 const emit = defineEmits(['click']);
 
@@ -41,7 +42,7 @@ function onClick(e: MouseEvent) {
 </script>
 
 <template>
-  <button type="button" @click="onClick"
+  <button :id="id" type="button" @click="onClick"
           :class="[{'px-5 py-2.5 rounded-lg':!icon, 'px-2 h-10 w-10 rounded-full':icon}, variantStyle]"
           class="flex justify-center items-center gap scale-100 active:scale-95 cursor-pointer text-md text-center">
     <div class="flex justify-center h-5 items-center">

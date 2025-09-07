@@ -2,7 +2,7 @@
 const props = defineProps({
   size:{
     type: String,
-    default: 30
+    default: '30'
   }
 })
 </script>

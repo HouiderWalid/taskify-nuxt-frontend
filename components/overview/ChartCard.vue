@@ -42,8 +42,10 @@ const series = computed(() => ([{
     <div class="w-full h-[266px] flex justify-center items-center" v-if="loading">
       <Spinner/>
     </div>
-    <ApexChart v-else-if="options.xaxis.categories.length" width="100%" style="height: 100%" type="line"
-               :options="options" :series="series"/>
+    <ClientOnly>
+      <ApexChart v-if="options.xaxis.categories.length" width="100%" style="height: 100%" type="line"
+                 :options="options" :series="series"/>
+    </ClientOnly>
   </div>
 </template>
 

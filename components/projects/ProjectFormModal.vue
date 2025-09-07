@@ -76,7 +76,7 @@ watch(modal, newValue => {
       </Button>
       <Button v-if="props.project" class="w-20" variant="filled"
               :loading="projectForm.isSaveLoading()" @click="updateProject">
-        {{ $t('project.dialogs.form.buttons.edit') }}
+        {{ $t('project.dialogs.form.buttons.save') }}
       </Button>
       <Button @close="emit('cancel')">
         {{ $t('project.dialogs.form.buttons.cancel') }}

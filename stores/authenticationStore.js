@@ -4,10 +4,11 @@ import User from "assets/ts/models/user/User.js";
 
 export const useAuthenticationStore = defineStore('authenticationStore', () => {
 
-        const accessToken = ref()
-        const user = ref()
+        const accessToken = ref(null)
+        const user = ref(null)
 
         function setAuthData(authData) {
+
             if (!(authData instanceof AuthData)) {
                 return
             }

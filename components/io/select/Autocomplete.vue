@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {get, isObjectLike} from "lodash-es";
-import ListObjectItem from "~/components/io/select/ListObjectItem";
+import ListObjectItem from "~/components/io/select/ListObjectItem.vue";
 
 const props = defineProps({
   id: {
@@ -66,8 +66,6 @@ function objectItemClicked(item: any) {
 
 function toggleInputFocused() {
   const input = props.id ? document.getElementById(props.id) : null
-  console.log('input', input)
-  console.log('input instanceof HTMLInputElement', input instanceof HTMLInputElement)
   if (input instanceof HTMLInputElement) {
     isInputFocused.value ? input.blur() : input.focus()
   }

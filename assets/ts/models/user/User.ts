@@ -6,13 +6,13 @@ export default class User extends JsonMappedModel {
 
     static full_name_attribute_name = 'full_name'
     static email_attribute_name = 'email'
-    static password_attribute_name = 'password'
+    static email_verified_attribute_name = 'email_verified'
     static permissions_attribute_name = 'permissions'
 
     #attributes = {
         [User.full_name_attribute_name]: null,
         [User.email_attribute_name]: null,
-        [User.password_attribute_name]: null,
+        [User.email_verified_attribute_name]: false,
         [User.permissions_attribute_name]: PermissionCollection
     }
 

@@ -10,14 +10,14 @@ definePageMeta({
 })
 
 const signUpForm = reactive(new SignInForm())
-const { setAuthData } = useAuthenticationStore()
+const {setAuthData} = useAuthenticationStore()
 const router = useRouter()
 
 function signIn() {
   useSyncFetchData(useSignInApi(signUpForm))
       .onStart(() => signUpForm.emptyValidationMessages().startFormLoading())
-      .onValidationErrors((messages:any) => signUpForm.setValidationMessages(messages))
-      .onSuccess((authData:any) => {
+      .onValidationErrors((messages: any) => signUpForm.setValidationMessages(messages))
+      .onSuccess((authData: AuthData) => {
         setAuthData(authData);
         router.push('/')
       }, AuthData)
@@ -34,7 +34,9 @@ function signIn() {
         <div class="flex flex-col">
           <FormFieldComponent v-for="field in signUpForm" :field="field"/>
         </div>
-        <Button @click="signIn" variant="filled-reversed" :loading="signUpForm.isFormLoading()">Sign Up</Button>
+        <Button id="signin-btn" @click="signIn" variant="filled-reversed" :loading="signUpForm.isFormLoading()">Sign
+          Up
+        </Button>
       </form>
       <div class="mt-6 flex flex-col items-center">
         <div class="text-center text-md text-white/80">Don't have an account?</div>
