@@ -21,6 +21,10 @@ export const useAuthenticationStore = defineStore('authenticationStore', () => {
             user.value = JSON.parse(JSON.stringify(newUser))
         }
 
+        function setAccessToken(token) {
+            accessToken.value = token
+        }
+
         function getUser() {
             return user.value ? user.value instanceof User ? user.value : new User(user.value) : null
         }
@@ -37,17 +41,11 @@ export const useAuthenticationStore = defineStore('authenticationStore', () => {
 
         return {
             accessToken,
+            setAccessToken,
             setAuthData,
             setUser,
             signOut,
             getUser,
             isPermitted
         }
-    },
-    {
-        persist: {
-            storage: piniaPluginPersistedstate.cookies(),
-            pick: ['accessToken']
-        },
-        devtools: {autoSerialize: false}
     })

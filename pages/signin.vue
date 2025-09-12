@@ -4,6 +4,7 @@ import SignInForm from "assets/ts/forms/SignInForm";
 import Button from "~/components/io/Button.vue";
 import {useSignInApi} from "assets/ts/apis/AuthenticationApis";
 import AuthData from "assets/ts/models/AuthData";
+import DashboardRoutes from "assets/ts/other/DashboardRoutes";
 
 definePageMeta({
   layout: 'authentication',
@@ -11,7 +12,7 @@ definePageMeta({
 
 const signUpForm = reactive(new SignInForm())
 const {setAuthData} = useAuthenticationStore()
-const router = useRouter()
+const localePath = useLocalePath()
 
 function signIn() {
   useSyncFetchData(useSignInApi(signUpForm))
@@ -19,7 +20,7 @@ function signIn() {
       .onValidationErrors((messages: any) => signUpForm.setValidationMessages(messages))
       .onSuccess((authData: AuthData) => {
         setAuthData(authData);
-        router.push('/')
+        navigateTo(localePath(DashboardRoutes.OVERVIEW.PATH))
       }, AuthData)
       .onFinished(() => signUpForm.endFormLoading())
 }

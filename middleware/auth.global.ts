@@ -4,17 +4,15 @@ import GuestRoutes from "assets/ts/other/GuestRoutes";
 import DashboardRoutes from "assets/ts/other/DashboardRoutes";
 import {useAuthUserApi} from "assets/ts/apis/AuthenticationApis";
 import {useFetchData} from "~/composables/useFetchData";
+import type {RouteLocationNormalizedGeneric} from "#vue-router";
 
-export default defineNuxtRouteMiddleware(async (to, from) => {
+export default defineNuxtRouteMiddleware(async (to:RouteLocationNormalizedGeneric, from) => {
     const {getUser, isPermitted, accessToken, setUser} = useAuthenticationStore()
 
     const routeName = to.name?.toString().split('__')[0]
     const routePermission = to.meta.permission
     const localePath = useLocalePath()
     const user = getUser()
-
-    console.log('user', user)
-    console.log('accessToken', useAuthenticationStore().accessToken)
 
     let authUser = null
     if (accessToken && !(user instanceof User)) {
@@ -27,19 +25,25 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
             }
         } catch (err) {
         }
-    }else {
+    } else {
         authUser = user
     }
 
     if (DashboardRoutes.getAllRoutesNames().includes(String(routeName)) && !(authUser instanceof User)) {
+        console.log('to signin')
         return navigateTo(localePath(GuestRoutes.SIGNIN.PATH))
     }
 
-    if (routePermission && !isPermitted(routePermission)) {
-        return navigateTo(localePath(DashboardRoutes.NOT_PERMITTED.PATH))
+    const notPermittedPath = localePath(DashboardRoutes.NOT_PERMITTED.PATH)
+    console.log('permission', routePermission)
+    console.log('isPermitted', isPermitted(routePermission))
+    if (routeName !== DashboardRoutes.NOT_PERMITTED.NAME && routePermission && !isPermitted(routePermission)) {
+        console.log('to not permitted')
+        return navigateTo(notPermittedPath)
     }
 
     if (GuestRoutes.getAllRoutesNames().includes(String(routeName)) && authUser instanceof User) {
+        console.log('to overview')
         return navigateTo(localePath(DashboardRoutes.OVERVIEW.PATH))
     }
 })

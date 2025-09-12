@@ -3,6 +3,7 @@ import SignUpForm from "assets/ts/forms/SignUpForm";
 import Button from "~/components/io/Button.vue";
 import {useSignupApi} from "assets/ts/apis/AuthenticationApis";
 import AuthData from "assets/ts/models/AuthData";
+import DashboardRoutes from "assets/ts/other/DashboardRoutes";
 
 definePageMeta({
   layout: 'authentication',
@@ -10,7 +11,7 @@ definePageMeta({
 
 const signupForm = reactive(new SignUpForm())
 const { setAuthData } = useAuthenticationStore()
-const router = useRouter()
+const localePath = useLocalePath()
 
 function signup() {
   useSyncFetchData(useSignupApi(signupForm))
@@ -18,7 +19,7 @@ function signup() {
       .onValidationErrors((messages:any) => signupForm.setValidationMessages(messages))
       .onSuccess((authData:any) => {
         setAuthData(authData);
-        router.push('/')
+        navigateTo(localePath(DashboardRoutes.OVERVIEW.PATH))
       }, AuthData)
       .onFinished(() => signupForm.endFormLoading())
 }
@@ -34,7 +35,7 @@ function signup() {
         <div class="flex flex-col">
           <FormFieldComponent v-for="field in signupForm" :field="field"/>
         </div>
-        <Button @click="signup" variant="filled-reversed" :loading="signupForm.isFormLoading()">Sign Up</Button>
+        <Button id="signup-btn" @click="signup" variant="filled-reversed" :loading="signupForm.isFormLoading()">Sign Up</Button>
       </form>
       <div class="mt-6 flex flex-col items-center">
         <div class="text-center text-md text-white/80">Already have an account?</div>
