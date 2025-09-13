@@ -8,6 +8,7 @@ import Project from "assets/ts/models/project/Project";
 
 const props = defineProps(['task'])
 const emit = defineEmits(['edit', 'delete']);
+const id = computed(() => props.task instanceof Task ? props.task.getId() : null)
 const name = computed(() => props.task instanceof Task ? props.task.getTitle() : null)
 const description = computed(() => props.task instanceof Task ? props.task.getDescription() : null)
 const dueDate = computed(() => props.task instanceof Task ? props.task.getDueDate() : null)
@@ -18,8 +19,8 @@ const project = computed(() => props.task instanceof Task ? props.task.getProjec
 const projectName = computed(() => project.value instanceof Project ? project.value.getName() : null)
 const taskPriority = computed(() => props.task instanceof Task ? props.task.getPriority() : null)
 const taskStatus = computed(() => props.task instanceof Task ? props.task.getStatus() : null)
-const taskStatusTranslation = computed(() => ['globals.task.statuses', taskStatus.value].join('.'))
-const taskPriorityTranslation = computed(() => ['globals.task.priorities', taskPriority.value].join('.'))
+const taskStatusTranslation = computed(() => taskStatus.value ? ['globals.task.statuses', taskStatus.value].join('.') : null)
+const taskPriorityTranslation = computed(() => taskPriority.value ? ['globals.task.priorities', taskPriority.value].join('.') : null)
 
 const priorityColor = computed(() => {
 
@@ -52,8 +53,8 @@ const statusColor = computed(() => {
       <div class="flex flex-col gap-4">
         <div class="flex gap-4 items-center">
           <span class="text-2xl font-bold">{{ name }}</span>
-          <Chip :bg-color="statusColor">{{ $t(taskStatusTranslation) }}</Chip>
-          <Chip :bg-color="priorityColor">{{ $t(taskPriorityTranslation) }}</Chip>
+          <Chip v-if="taskStatusTranslation" :bg-color="statusColor">{{ $t(taskStatusTranslation) }}</Chip>
+          <Chip v-if="taskPriorityTranslation" :bg-color="priorityColor">{{ $t(taskPriorityTranslation) }}</Chip>
         </div>
         <span class="text-gray-500">{{ description }}</span>
       </div>
@@ -62,8 +63,8 @@ const statusColor = computed(() => {
           <Button v-bind="props" icon="dots-vertical"/>
         </template>
         <List>
-          <ListItem @click="emit('edit', props.task)">{{ $t('task.item.buttons.edit') }}</ListItem>
-          <ListItem @click="emit('delete', props.task)">{{ $t('task.item.buttons.delete') }}</ListItem>
+          <ListItem :id="['task-edit-btn', id].join('-')" @click="emit('edit', props.task)">{{ $t('task.item.buttons.edit') }}</ListItem>
+          <ListItem :id="['task-delete-btn', id].join('-')" @click="emit('delete', props.task)">{{ $t('task.item.buttons.delete') }}</ListItem>
         </List>
       </Menu>
     </div>

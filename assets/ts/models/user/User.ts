@@ -39,7 +39,6 @@ export default class User extends JsonMappedModel {
 
     isPermitted(permission: string) {
         const permissions = this.getPermissions()
-        console.log('user', this)
         return Array.isArray(permissions) && permissions.some((userPermission: Permission) => userPermission.getName() === permission)
     }
 }

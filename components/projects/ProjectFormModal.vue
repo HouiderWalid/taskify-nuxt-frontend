@@ -63,18 +63,18 @@ watch(modal, newValue => {
 </script>
 
 <template>
-  <Modal v-model="modal" @close="emit('close')">
+  <Modal id="project-form-modal" v-model="modal" @close="emit('close')">
     <template #title>
       {{ $t(modalTitle) }}
     </template>
     <FormAlertMessage :data="projectForm.formAlertMessage"/>
     <FormFieldComponent v-for="field in projectForm" class="w-full" :field="field"/>
     <template #action>
-      <Button v-if="!props.project" class="w-20" variant="filled"
+      <Button id="project-form-create-btn" v-if="!props.project" class="w-20" variant="filled"
               :loading="projectForm.isCreateLoading()" @click="createProject">
         {{ $t('project.dialogs.form.buttons.create') }}
       </Button>
-      <Button v-if="props.project" class="w-20" variant="filled"
+      <Button id="project-form-edit-btn" v-if="props.project" class="w-20" variant="filled"
               :loading="projectForm.isSaveLoading()" @click="updateProject">
         {{ $t('project.dialogs.form.buttons.save') }}
       </Button>

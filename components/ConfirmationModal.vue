@@ -2,23 +2,23 @@
 
 import Button from "~/components/io/Button.vue";
 
-const props = defineProps(['loading'])
+const props = defineProps(['id', 'loading'])
 const emit = defineEmits(['close', 'action'])
 const model = defineModel()
 </script>
 
 <template>
-  <Modal v-model="model" @close="emit('close')">
+  <Modal :id="props.id" v-model="model" @close="emit('close')">
     <template #title>
       <slot name="title"/>
     </template>
     <slot name="description"/>
     <template #action>
-      <Button class="w-20" :loading="loading"
+      <Button id="confirmation-modal-yes-btn" class="w-20" :loading="props.loading"
               @click="emit('action', true)">
         {{ $t('confirmationModal.buttons.yes') }}
       </Button>
-      <Button class="w-20" variant="filled" @click="emit('action', false)">
+      <Button id="confirmation-modal-no-btn" class="w-20" variant="filled" @click="emit('action', false)">
         {{ $t('confirmationModal.buttons.no') }}
       </Button>
     </template>

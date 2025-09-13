@@ -30,20 +30,15 @@ export default defineNuxtRouteMiddleware(async (to:RouteLocationNormalizedGeneri
     }
 
     if (DashboardRoutes.getAllRoutesNames().includes(String(routeName)) && !(authUser instanceof User)) {
-        console.log('to signin')
         return navigateTo(localePath(GuestRoutes.SIGNIN.PATH))
     }
 
     const notPermittedPath = localePath(DashboardRoutes.NOT_PERMITTED.PATH)
-    console.log('permission', routePermission)
-    console.log('isPermitted', isPermitted(routePermission))
     if (routeName !== DashboardRoutes.NOT_PERMITTED.NAME && routePermission && !isPermitted(routePermission)) {
-        console.log('to not permitted')
         return navigateTo(notPermittedPath)
     }
 
     if (GuestRoutes.getAllRoutesNames().includes(String(routeName)) && authUser instanceof User) {
-        console.log('to overview')
         return navigateTo(localePath(DashboardRoutes.OVERVIEW.PATH))
     }
 })

@@ -83,18 +83,18 @@ watch(modal, newValue => {
 </script>
 
 <template>
-  <Modal v-model="modal" @close="emit('close')">
+  <Modal id="task-form-modal" v-model="modal" @close="emit('close')">
     <template #title>
       {{ $t(modalTitle) }}
     </template>
     <FormAlertMessage :data="taskForm.formAlertMessage" :full-width="true"/>
     <FormFieldComponent v-for="field in taskForm" class="w-full" :field="field"/>
     <template #action>
-      <Button v-if="!props.task" class="w-20" variant="filled"
+      <Button id="task-form-create-btn" v-if="!props.task" class="w-20" variant="filled"
               :loading="taskForm.isCreateLoading()" @click="createTask">
         {{ $t('task.dialogs.form.buttons.create') }}
       </Button>
-      <Button v-if="props.task" class="w-20" variant="filled"
+      <Button id="task-form-edit-btn" v-if="props.task" class="w-20" variant="filled"
               :loading="taskForm.isSaveLoading()" @click="updateTask">
         {{ $t('task.dialogs.form.buttons.save') }}
       </Button>

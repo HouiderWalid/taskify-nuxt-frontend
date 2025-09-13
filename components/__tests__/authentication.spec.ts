@@ -20,21 +20,19 @@ describe('user authentication', () => {
 
     const {navigateToMock} = vi.hoisted(() => ({navigateToMock: vi.fn()}))
     mockNuxtImport('navigateTo', () => navigateToMock)
-    let axiosMock: MockAdapter
+    const axiosMock: MockAdapter = new MockAdapter(axios);
     let pinia: TestingPinia
 
     beforeEach(() => {
-        axiosMock = new MockAdapter(axios);
         pinia = createTestingPinia({
             createSpy: vi.fn,
             stubActions: false
         });
         setActivePinia(pinia)
-        vi.clearAllMocks()
     });
 
     afterEach(() => {
-        axiosMock.restore();
+        vi.clearAllMocks()
     });
 
     it('check user redirection to home after successful sign up',

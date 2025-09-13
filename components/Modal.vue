@@ -2,6 +2,7 @@
 import {mdiClose} from "@mdi/js";
 import SvgIcon from '@jamescoyle/vue-icon'
 
+const props = defineProps(['id'])
 const emit = defineEmits(['close'])
 const model = defineModel()
 
@@ -14,7 +15,7 @@ function onContainerClick(e:MouseEvent) {
 </script>
 
 <template>
-  <div aria-hidden="true" @click="onContainerClick"
+  <div :id="props.id" aria-hidden="true" @click="onContainerClick"
        class="hidden overflow-y-auto overflow-x-hidden bg-black/50 fixed justify-center items-center w-full md:inset-0 h-screen"
        :class="{'flex!': model}">
     <div class="relative p-4 w-full max-w-2xl max-h-full">

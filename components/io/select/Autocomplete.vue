@@ -88,7 +88,7 @@ onUnmounted(() => {
       </label>
       <div :class="[{'border-red-400!':firstMessage}, props.inputClasses]"
            class="px-3 py-2 flex gap-2 border bg-white focus-within:ring-primary-500 focus-within:border-primary-500 rounded-lg">
-        <span v-if="modelText" class="text-nowrap">{{ modelText }}</span>
+        <span :id="[props.id, 'selected-text'].join('-')" v-if="modelText" class="text-nowrap">{{ modelText }}</span>
         <input v-model="search" @focus="isInputFocused=true" :id="props.id" type="text"
                class="p-0 border-0 focus:border-0! focus:outline-0! focus:shadow-[none]! w-full"
                :placeholder="props.placeholder" :name="props.name"/>

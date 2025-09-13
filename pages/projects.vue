@@ -111,7 +111,7 @@ onMounted(() => {
   <div class="flex flex-col gap-4">
     <div class="flex justify-between items-center">
       <span class="font-bold text-2xl">{{ $t('project.title') }}</span>
-      <Button @click="createNewProject" variant="filled">
+      <Button id="create-project-btn" @click="createNewProject" variant="filled">
         {{ $t('project.buttons.newProjects') }}
       </Button>
     </div>
@@ -127,7 +127,7 @@ onMounted(() => {
                       @paginate="getFilteredProjects" @success-snack-message="setSuccessMessage"
                       @cancel="isFormModalOpen = false" @close="isFormModalOpen = false"/>
 
-    <ConfirmationModal v-model="isDeleteModalOpen" :loading="deleteLoading"
+    <ConfirmationModal id="project-delete-confirmation" v-model="isDeleteModalOpen" :loading="deleteLoading"
                        @close="isDeleteModalOpen = false" @action="deleteProject">
       <template #title>
         {{ $t('project.dialogs.delete.title') }}
@@ -136,7 +136,7 @@ onMounted(() => {
         {{ $t('project.dialogs.delete.description') }}
       </template>
     </ConfirmationModal>
-    <FormAlertMessage :data="snackMessage"/>
+    <FormAlertMessage id="project-snack-message" :data="snackMessage"/>
   </div>
 </template>
 

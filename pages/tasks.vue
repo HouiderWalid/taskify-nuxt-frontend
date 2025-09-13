@@ -109,7 +109,9 @@ onMounted(() => {
   <div class="flex flex-col gap-4">
     <div class="flex justify-between items-center">
       <span class="font-bold text-2xl">{{ $t('task.title') }}</span>
-      <Button @click="createNewTask" variant="filled">{{ $t('task.buttons.title') }}</Button>
+      <Button id="create-task-btn" @click="createNewTask" variant="filled">
+        {{ $t('task.buttons.title') }}
+      </Button>
     </div>
 
     <PaginatedItems :loading="isListLoading" :pagination="data.pagination"
@@ -123,9 +125,9 @@ onMounted(() => {
                    @paginate="getFilteredTasks" @success-snack-message="setSuccessMessage"
                    @cancel="isFormModalOpen = false" @close="isFormModalOpen = false"/>
 
-    <FormAlertMessage :data="snackMessage"/>
+    <FormAlertMessage id="task-snack-message" :data="snackMessage"/>
 
-    <ConfirmationModal v-model="isDeleteModalOpen" :loading="deleteLoading"
+    <ConfirmationModal id="task-delete-confirmation" v-model="isDeleteModalOpen" :loading="deleteLoading"
                        @close="isDeleteModalOpen = false" @action="deleteTask">
       <template #title>
         {{ $t('task.dialogs.delete.title') }}

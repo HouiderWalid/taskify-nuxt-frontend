@@ -57,32 +57,54 @@ export default {
     },
     signup: {
         form: {
+            title: 'Join Taskify',
+            subtitle: 'Create an account to get started',
+            buttons: {
+                signIn: 'Sign Up'
+            },
+            alreadyHaveAccount:{
+                text: 'Already have an account?',
+                link: 'Sign in'
+            },
             fields: {
                 full_name: {
-                    title: 'Full Name'
+                    title: 'Full Name',
+                    placeholder: 'Enter your full name'
                 },
                 email: {
-                    title: 'Email'
+                    title: 'Email',
+                    placeholder: 'Enter your email'
                 },
                 password: {
-                    title: 'Password'
+                    title: 'Password',
+                    placeholder: 'Enter your password'
                 },
                 password_confirmation: {
-                    title: 'Password Confirmation'
+                    title: 'Password Confirmation',
+                    placeholder: 'Enter your password confirmation'
                 }
             }
         }
     },
     signin: {
-        title: 'Welcome Back',
-        subTitle: 'Sign in to your account',
         form: {
+            title: 'Welcome Back',
+            subtitle: 'Sign in to your account',
+            buttons: {
+                signIn: 'Sign In'
+            },
+            dontHaveAnAccount:{
+                text: 'Don\'t have an account?',
+                link: 'Sign up'
+            },
             fields: {
                 email: {
-                    title: 'Email'
+                    title: 'Email',
+                    placeholder: 'Enter your email'
                 },
                 password: {
-                    title: 'Password'
+                    title: 'Password',
+                    placeholder: 'Enter your password'
                 }
             }
         }

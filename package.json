@@ -36,6 +36,7 @@
     "@testing-library/vue": "^8.1.0",
     "@types/lodash-es": "^4.17.12",
     "@vue/test-utils": "^2.4.6",
+    "axios-mock-adapter": "^2.1.0",
     "happy-dom": "^18.0.1",
     "nuxt-icon": "^1.0.0-beta.7",
     "playwright-core": "^1.54.2",

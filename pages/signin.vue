@@ -29,19 +29,21 @@ function signIn() {
 <template>
   <div class="flex items-center justify-center w-full h-full">
     <div class="w-full max-w-md bg-white/15 backdrop-blur-md rounded-xl p-6 shadow-lg border border-white/20">
-      <div class="text-2xl text-center font-bold text-white">Welcome Back</div>
-      <div class="text-center mb-8 text-md text-white/80">Sign in to your account</div>
+      <div class="text-2xl text-center font-bold text-white">{{ $t('signin.form.title') }}</div>
+      <div class="text-center mb-8 text-md text-white/80">{{ $t('signin.form.subtitle') }}</div>
       <form class="flex flex-col gap-6">
         <div class="flex flex-col">
           <FormFieldComponent v-for="field in signUpForm" :field="field"/>
         </div>
-        <Button id="signin-btn" @click="signIn" variant="filled-reversed" :loading="signUpForm.isFormLoading()">Sign
-          Up
+        <Button id="signin-btn" @click="signIn" variant="filled-reversed" :loading="signUpForm.isFormLoading()">
+          {{ $t('signin.form.buttons.signIn') }}
         </Button>
       </form>
       <div class="mt-6 flex flex-col items-center">
-        <div class="text-center text-md text-white/80">Don't have an account?</div>
-        <NuxtLink class="text-center text-white text-sm font-bold" to="/signup">Sign up</NuxtLink>
+        <div class="text-center text-md text-white/80">{{ $t('signin.form.dontHaveAnAccount.text') }}</div>
+        <NuxtLink class="text-center text-white text-sm font-bold" :to="localePath('/signup')">
+          {{ $t('signin.form.dontHaveAnAccount.link') }}
+        </NuxtLink>
       </div>
     </div>
   </div>

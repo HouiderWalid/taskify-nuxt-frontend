@@ -46,7 +46,7 @@ const titleStyle = computed(() => {
         {{ props.label }}
       </div>
       <div class="flex items-center gap-3">
-        <RadioOption v-model="model" v-for="option in props.items" :option="option" :item-value-key="props.itemValueKey"
+        <RadioOption :id="props.id" v-model="model" v-for="option in props.items" :option="option" :item-value-key="props.itemValueKey"
                      :item-text-key="itemTextKey"/>
       </div>
     </div>

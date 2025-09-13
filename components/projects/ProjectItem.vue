@@ -7,6 +7,7 @@ import List from "~/components/List.vue";
 
 const props = defineProps(['project'])
 const emit = defineEmits(['edit', 'delete']);
+const id = computed(() => props.project instanceof Project ? props.project.getId() : null)
 const name = computed(() => props.project instanceof Project ? props.project.getName() : null)
 const description = computed(() => props.project instanceof Project ? props.project.getDescription() : null)
 const dueDate = computed(() => props.project instanceof Project ? props.project.getDueDate() : null)
@@ -30,8 +31,8 @@ const teamMembers = computed(() => props.project instanceof Project ? props.proj
           <Button v-bind="props" icon="dots-vertical"/>
         </template>
         <List>
-          <ListItem @click="emit('edit', project)">{{ $t('project.item.buttons.edit') }}</ListItem>
-          <ListItem @click="emit('delete', project)">{{ $t('project.item.buttons.delete') }}</ListItem>
+          <ListItem :id="['project-edit-btn', id].join('-')" @click="emit('edit', project)">{{ $t('project.item.buttons.edit') }}</ListItem>
+          <ListItem :id="['project-delete-btn', id].join('-')" @click="emit('delete', project)">{{ $t('project.item.buttons.delete') }}</ListItem>
         </List>
       </Menu>
     </div>

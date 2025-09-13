@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps(['data', 'fullWidth'])
+const props = defineProps(['id', 'data', 'fullWidth'])
 
 const timeout = computed(() => props.data.timeout)
 
@@ -17,7 +17,7 @@ const absolute = computed(() => props.data.absolute)
 </script>
 
 <template>
-  <div :class="[{'flex!':props.data.open, 'absolute':absolute, 'max-w-xs':!props.fullWidth}, bgColor]"
+  <div :id="props.id" :class="[{'flex!':props.data.open, 'absolute':absolute, 'max-w-xs':!props.fullWidth}, bgColor]"
        class="hidden bottom-4 mb-4 mx-auto left-1/2 items-center w-full p-4 text-white rounded-lg shadow-sm"
        role="alert" style="z-index: 100">
     <Icon :name="['mdi', icon].join(':')" size="24"/>
