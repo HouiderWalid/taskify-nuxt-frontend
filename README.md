@@ -1,75 +1,24 @@
-# Nuxt Minimal Starter
-
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
-
-## Setup
-
-Make sure to install dependencies:
+## Start application in localhost
 
 ```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
+  docker-compose -f docker/local/docker-compose.yml --env-file .env up -d --build
 ```
 
-## Development Server
+## Start application in production
 
-Start the development server on `http://localhost:3000`:
+Run jenkins container and create a pipeline to build from Jenkins file in the project root location.
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
+  git clone https://github.com/HouiderWalid/jenkins-docker-k8s-aws
 ```
 
-## Production
-
-Build the application for production:
+These environment variables are required in jenkins credentials however:
 
 ```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+ENV_FILE= # .env file to upload as secret file credential
+AWS_ACCESS_DATA= # here to put the username (access key) and password (secret access key)
+AWS_REGION= # aws region as secret text credential
+ECR_REPOSITORY= # aws ecr repository name as secret text credential
+AWS_ACCOUNT_ID= # aws account id as secret text credential
+EKS_CLUSTER_NAME= # aws eks cluster name as secret text credential
 ```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

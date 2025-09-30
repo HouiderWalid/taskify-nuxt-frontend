@@ -1,0 +1,14 @@
+services:
+  store:
+    build:
+      context: ../../../
+      dockerfile: docker/local/app/Dockerfile
+    volumes:
+      - ../../../.:/var/www/html
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      - taskify_nuxt
+
+networks:
+  taskify_nuxt:
+    driver: local
