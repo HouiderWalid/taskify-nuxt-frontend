@@ -13,7 +13,8 @@ export default defineNuxtRouteMiddleware(async (to:RouteLocationNormalizedGeneri
     const routePermission = to.meta.permission
     const localePath = useLocalePath()
     const user = getUser()
-
+console.log('accessToken', accessToken)
+console.log('user', user)
     let authUser = null
     if (accessToken && !(user instanceof User)) {
 

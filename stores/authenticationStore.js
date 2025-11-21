@@ -48,4 +48,10 @@ export const useAuthenticationStore = defineStore('authenticationStore', () => {
             getUser,
             isPermitted
         }
+    },
+    {
+        persist: {
+            storage: piniaPluginPersistedstate.cookies(),
+            pick: ['accessToken']
+        }
     })

@@ -53,7 +53,7 @@ const inputStyle = computed(() => {
 
 <template>
   <div>
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col grow gap-2">
       <label v-if="props.label" :for="props.id" :class="titleStyle">
         {{ props.label }}
       </label>

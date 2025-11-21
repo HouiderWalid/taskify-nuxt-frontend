@@ -20,6 +20,8 @@ definePageMeta({
   permission: Permission.VIEW_PROJECTS
 })
 
+const {getUser} = useAuthenticationStore()
+const user = getUser()
 const isFormModalOpen = ref(false)
 const isDeleteModalOpen = ref(false)
 const data = reactive({
@@ -58,6 +60,8 @@ function deleteProject(deleteConfirmation: boolean) {
       .onFailure((message: any) => setErrorMessage(message))
       .onFinished(() => deleteLoading.value = false)
 }
+
+const canCreateProject = computed(() => user?.isPermitted(Permission.CREATE_PROJECT))
 
 function editProject(project: Project) {
   selectedProject.value = project
@@ -111,7 +115,7 @@ onMounted(() => {
   <div class="flex flex-col gap-4">
     <div class="flex justify-between items-center">
       <span class="font-bold text-2xl">{{ $t('project.title') }}</span>
-      <Button id="create-project-btn" @click="createNewProject" variant="filled">
+      <Button v-if="canCreateProject" id="create-project-btn" @click="createNewProject" variant="filled">
         {{ $t('project.buttons.newProjects') }}
       </Button>
     </div>

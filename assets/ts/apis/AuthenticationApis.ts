@@ -17,3 +17,7 @@ export const useSignOutApi = (data?: any): ApiData => {
     return {method: 'PATCH', uri: 'logout', data}
 }
 
+export const useSaveProfileApi = (data?: any, contentType = 'multipart/form-data'): ApiData => {
+    return {method: 'POST', uri: 'user_profile', contentType, data}
+}
+

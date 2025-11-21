@@ -11,4 +11,4 @@ services:
 
 networks:
   taskify_nuxt:
-    driver: local
+    driver: bridge

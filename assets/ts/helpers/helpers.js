@@ -47,3 +47,34 @@ export function apiRequestStringifier(key, object) {
                         : field.content ?? null
     )
 }
+
+function getFormData(formData = {}) {
+    let data = []
+    if (formData) {
+        Object.keys(formData).forEach(key => {
+            if (formData[key]?.fieldName !== undefined) {
+                if (getType(formData[key]?.content) === 'Object') {
+                    data.push({
+                        name: formData[key]?.fieldName,
+                        value: formData[key]?.content?.Id?.content
+                    })
+                } else if (Array.isArray(formData[key]?.content)) {
+                    data.push({
+                        name: formData[key]?.fieldName,
+                        value: formData[key]?.content
+                    })
+                } else {
+                    data.push({
+                        name: formData[key]?.fieldName,
+                        value: formData[key]?.content || formData[key]?.content === 0 ? formData[key]?.content : ''
+                    })
+                }
+            }
+        })
+    }
+    return data
+}
+
+export {
+    getFormData,
+}

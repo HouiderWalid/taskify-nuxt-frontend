@@ -19,6 +19,8 @@ definePageMeta({
   permission: Permission.VIEW_TASKS
 })
 
+const {getUser} = useAuthenticationStore()
+const user = getUser()
 const selectedTask = ref()
 const isDeleteModalOpen = ref(false)
 const isListLoading = ref(true)
@@ -31,6 +33,7 @@ const data = reactive({
   })
 })
 const {snackMessage, setSuccessMessage, setErrorMessage} = useSnackManager()
+const canCreateTask = computed(() => user?.isPermitted(Permission.CREATE_TASK))
 
 function deleteTask(deleteConfirmation: boolean) {
 
@@ -109,7 +112,7 @@ onMounted(() => {
   <div class="flex flex-col gap-4">
     <div class="flex justify-between items-center">
       <span class="font-bold text-2xl">{{ $t('task.title') }}</span>
-      <Button id="create-task-btn" @click="createNewTask" variant="filled">
+      <Button v-if="canCreateTask" id="create-task-btn" @click="createNewTask" variant="filled">
         {{ $t('task.buttons.title') }}
       </Button>
     </div>

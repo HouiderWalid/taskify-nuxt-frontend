@@ -13,13 +13,13 @@ export default {
             }
         }
     },
-    components:{
-        autocomplete:{
+    components: {
+        autocomplete: {
             noResultsFound: 'No results found.',
         }
     },
-    confirmationModal:{
-        buttons:{
+    confirmationModal: {
+        buttons: {
             yes: 'Yes',
             no: 'No'
         }
@@ -62,7 +62,7 @@ export default {
             buttons: {
                 signIn: 'Sign Up'
             },
-            alreadyHaveAccount:{
+            alreadyHaveAccount: {
                 text: 'Already have an account?',
                 link: 'Sign in'
             },
@@ -93,7 +93,7 @@ export default {
             buttons: {
                 signIn: 'Sign In'
             },
-            dontHaveAnAccount:{
+            dontHaveAnAccount: {
                 text: 'Don\'t have an account?',
                 link: 'Sign up'
             },
@@ -125,7 +125,7 @@ export default {
         },
         dialogs: {
             form: {
-                title:{
+                title: {
                     create: 'Create Project',
                     edit: 'Edit Project',
                 },
@@ -159,7 +159,7 @@ export default {
         buttons: {
             title: 'Create Task',
         },
-        item:{
+        item: {
             buttons: {
                 edit: 'Edit',
                 delete: 'Delete'
@@ -169,7 +169,7 @@ export default {
         },
         dialogs: {
             form: {
-                title:{
+                title: {
                     create: 'Create Task',
                     edit: 'Edit Task',
                 },
@@ -206,6 +206,40 @@ export default {
             delete: {
                 title: 'Delete Task',
                 description: 'Are you sure you want to delete this task ?',
+            }
+        }
+    },
+    settings: {
+        title: 'Profile Information',
+        subtitle: 'Update your user information here',
+        form: {
+            fields: {
+                avatar: {
+                    title: 'Avatar Image'
+                },
+                full_name: {
+                    title: 'Full Name',
+                    placeholder: 'Enter your full name'
+                },
+                email: {
+                    title: 'Email',
+                    placeholder: 'Enter your email'
+                },
+                old_password: {
+                    title: 'Old Password',
+                    placeholder: 'Enter your old password'
+                },
+                new_password: {
+                    title: 'New Password',
+                    placeholder: 'Enter your new password'
+                },
+                new_password_confirmation: {
+                    title: 'New Password Confirmation',
+                    placeholder: 'Enter your new password confirmation'
+                }
+            },
+            buttons: {
+                save: 'Save Settings',
             }
         }
     }

@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import Button from "~/components/io/Button.vue";
 import {useAuthenticationStore} from "~/stores/authenticationStore";
-import User from "assets/ts/models/user/User";
 import Permission from "assets/ts/models/permission/Permission";
 
 const {getUser, signOut, isPermitted} = useAuthenticationStore();
 const user = getUser();
-const fullName = user instanceof User ? user.getFullName() : null
+const fullName = user?.getFullName()
 const nameLetters = String(fullName).split(' ').map(name => String(name).charAt(0).toUpperCase()).join('');
+const avatar = user?.getAvatar()
 const localePath = useLocalePath()
 const router = useRouter()
 const {locale} = useI18n()
-const direction = computed(()=>locale.value === 'ar' ? 'rtl' : 'ltr')
+const direction = computed(() => locale.value === 'ar' ? 'rtl' : 'ltr')
 
 const navigationList = [
   {
@@ -68,7 +68,8 @@ function signOutCall() {
         <div class="flex gap-4 items-center justify-center">
           <LanguageInput/>
           <div class="rounded-full flex justify-center text-xs items-center bg-primary-800 text-white h-9 w-9">
-            {{ nameLetters }}
+            <img class="rounded-full" v-if="avatar" :src="avatar" alt="Dashboard User Avatar">
+            <span v-else>{{ nameLetters }}</span>
           </div>
           <Button @click="signOutCall" icon="logout" variant="plain"/>
         </div>

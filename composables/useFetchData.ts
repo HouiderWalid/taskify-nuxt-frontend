@@ -2,7 +2,7 @@ import JsonMapper from "assets/ts/helpers/JsonMapper";
 import axios, {AxiosHeaders, type AxiosResponse, type RawAxiosRequestHeaders} from "axios";
 import Response from "assets/ts/models/Response";
 import {useAuthenticationStore} from "~/stores/authenticationStore";
-import {apiRequestStringifier} from "assets/ts/helpers/helpers";
+import {apiRequestStringifier, getFormData, isObject} from "assets/ts/helpers/helpers";
 
 export type ApiData = {
     data?: JsonObject,
@@ -11,6 +11,7 @@ export type ApiData = {
     query?: object,
     baseURL?: string,
     model?: any,
+    contentType?: string
 }
 
 type JsonObject = {
@@ -24,18 +25,46 @@ export function useSyncFetchData<ResponseType extends typeof JsonMapper>(
         uri,
         query = {},
         baseURL = import.meta.env.VITE_API_BASE_URL,
+        contentType = 'application/json',
     }: ApiData
 ): CustomRequestBody<ResponseType> {
     const endPoint = [baseURL, uri].join('')
-    const bodyData = Array.isArray(data)
-        ? data.map((i: any) => JSON.stringify(i, apiRequestStringifier)).reduce((pi: object, i: any) => Object.assign(pi, JSON.parse(i)), {})
-        : JSON.parse(JSON.stringify(data, apiRequestStringifier))
+
+    let bodyData = null
     let headers: RawAxiosRequestHeaders | AxiosHeaders = {}
+    if (contentType === 'multipart/form-data') {
+        headers['content-type'] = 'multipart/form-data'
+        const form_data = new FormData();
+        if (!Array.isArray(data) && isObject(data)) data = getFormData(data)
+        if (Array.isArray(data)) {
+            data.forEach(field => {
+                Array.isArray(field.value)
+                    ? field.value.length > 0
+                        ? field.value.forEach((sv:any) => form_data.append(`${field.name}[]`, sv))
+                        : form_data.append(`${field.name}[]`, field.value)
+                    : form_data.append(field.name, field.value)
+            })
+        }
+        if (method === 'PUT') {
+            form_data.append('_method', method)
+            method = 'POST'
+        }
+        bodyData = form_data
+    } else {
+        bodyData = Array.isArray(data)
+            ? data.map((i: any) => JSON.stringify(i, apiRequestStringifier)).reduce((pi: object, i: any) => Object.assign(pi, JSON.parse(i)), {})
+            : JSON.parse(JSON.stringify(data, apiRequestStringifier))
+    }
+
+
+
 
     const {accessToken} = useAuthenticationStore()
     if (accessToken) {
         headers.Authorization = `Bearer ${accessToken}`
     }
+
+    console.log('headers', headers)
 
     return new CustomRequestBody<ResponseType>(axios({
         method,
