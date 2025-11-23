@@ -1,5 +1,16 @@
 ## Start application in localhost
 
+Generate the .env file
+```bash
+cp .env.example .env
+```
+
+Create this docker network if it doesn't exist
+```bash
+docker network create taskify_nuxt_laravel
+```
+
+Build and start the application locally
 ```bash
   docker-compose -f docker/local/docker-compose.yml --env-file .env up -d --build
 ```

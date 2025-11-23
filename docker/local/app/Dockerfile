@@ -6,7 +6,6 @@ RUN usermod -u 1000 www-data
 RUN apt update && apt install -y nginx
 RUN npm install pm2 -g
 
-COPY docker/local/app/pm2/ecosystem.config.cjs /var/www/ecosystem.config.cjs
 COPY docker/local/app/nginx/conf.d /etc/nginx/conf.d
 
 WORKDIR /var/www/html
@@ -16,4 +15,4 @@ COPY docker/local/app/system/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 
-CMD ["sh", "-c", "pm2 start docker/local/app/pm2/ecosystem.config.cjs && nginx -g 'daemon off;'"]
+CMD ["pm2-runtime", "docker/local/app/pm2/ecosystem.config.cjs"]

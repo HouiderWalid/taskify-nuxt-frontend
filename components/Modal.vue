@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import {mdiClose} from "@mdi/js";
-import SvgIcon from '@jamescoyle/vue-icon'
 
 const props = defineProps(['id'])
 const emit = defineEmits(['close'])
@@ -25,7 +23,7 @@ function onContainerClick(e:MouseEvent) {
           <h3 class="text-xl font-semibold text-gray-900">
             <slot name="title"/>
           </h3>
-          <svg-icon class="cursor-pointer" type="mdi" :path="mdiClose" @click="emit('close')" :size="24"/>
+          <Icon class="cursor-pointer" name="mdi:close" @click="emit('close')" :size="24"/>
         </div>
         <div class="p-4 md:p-5">
           <slot/>

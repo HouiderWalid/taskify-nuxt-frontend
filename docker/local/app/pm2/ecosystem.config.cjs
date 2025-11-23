@@ -7,6 +7,12 @@ module.exports = {
             script: './.output/server/index.mjs',
             port: 4500,
             args: 'preview'
+        },
+        {
+            name: 'nginx',
+            script: 'nginx',
+            args: '-g "daemon off;"',
+            autorestart: false
         }
     ]
 };
