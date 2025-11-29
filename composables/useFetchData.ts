@@ -64,8 +64,6 @@ export function useSyncFetchData<ResponseType extends typeof JsonMapper>(
         headers.Authorization = `Bearer ${accessToken}`
     }
 
-    console.log('headers', headers)
-
     return new CustomRequestBody<ResponseType>(axios({
         method,
         url: endPoint,

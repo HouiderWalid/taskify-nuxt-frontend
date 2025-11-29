@@ -11,6 +11,7 @@ import ProjectForm from "assets/ts/forms/ProjectForm";
 import TaskForm from "assets/ts/forms/TaskForm";
 import Task from "assets/ts/models/task/Task";
 import User from "assets/ts/models/user/User";
+import Permission from "assets/ts/models/permission/Permission";
 
 describe('task page', () => {
 
@@ -23,6 +24,11 @@ describe('task page', () => {
     });
 
     it('successful task creation', async () => {
+
+        const authStore = useAuthenticationStore()
+        authStore.setUser(new User({
+            [User.getPermissionsAttributeName()]: [{[Permission.getNameAttributeName()]: Permission.CREATE_TASK}],
+        }))
 
         axiosMock.onGet('http://localhost/api/task').reply(200, {
             code: 200,

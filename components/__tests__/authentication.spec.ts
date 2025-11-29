@@ -42,7 +42,7 @@ describe('user authentication', () => {
             axiosMock.onPost('http://localhost/api/sign_up').reply(200, {
                 code: 200,
                 data: {
-                    [AuthData.getUserAttributeName()]: {[User.getFullNameAttributeName()]: 'walid houider'},
+                    [AuthData.getUserAttributeName()]: {[User.getFullNameAttributeName()]: 'full name'},
                     [AuthData.getAccessTokenAttributeName()]: 'fake_token'
                 },
                 messages: ''
@@ -74,7 +74,7 @@ describe('user authentication', () => {
             axiosMock.onPost('http://localhost/api/sign_in').reply(200, {
                 code: 200,
                 data: {
-                    [AuthData.getUserAttributeName()]: {[User.getFullNameAttributeName()]: 'walid houider'},
+                    [AuthData.getUserAttributeName()]: {[User.getFullNameAttributeName()]: 'full name'},
                     [AuthData.getAccessTokenAttributeName()]: 'fake_token'
                 },
                 messages: ''
@@ -123,7 +123,7 @@ describe('user authentication', () => {
         axiosMock.onGet('http://localhost/api/auth_user').reply(200, {
             code: 200,
             data: {
-                [User.getFullNameAttributeName()]: 'walid houider 2',
+                [User.getFullNameAttributeName()]: 'full name 2',
                 [User.getPermissionsAttributeName()]: [
                     {
                         [Permission.getIdAttributeName()]: 1,
@@ -159,7 +159,7 @@ describe('user authentication', () => {
         axiosMock.onGet('http://localhost/api/auth_user').reply(200, {
             code: 200,
             data: {
-                [User.getFullNameAttributeName()]: 'walid houider 3',
+                [User.getFullNameAttributeName()]: 'full name 3',
                 [User.getPermissionsAttributeName()]: []
             },
             messages: ''

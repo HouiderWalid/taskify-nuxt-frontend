@@ -7,6 +7,8 @@ import Pagination from "assets/ts/models/Pagination";
 import {flushPromises} from "@vue/test-utils";
 import Project from "assets/ts/models/project/Project";
 import ProjectForm from "assets/ts/forms/ProjectForm";
+import User from "assets/ts/models/user/User";
+import Permission from "assets/ts/models/permission/Permission";
 
 describe('project page', () => {
 
@@ -19,6 +21,11 @@ describe('project page', () => {
     });
 
     it('successful project creation', async () => {
+
+        const authStore = useAuthenticationStore()
+        authStore.setUser(new User({
+            [User.getPermissionsAttributeName()]: [{[Permission.getNameAttributeName()]: Permission.CREATE_PROJECT}],
+        }))
 
         axiosMock.onGet('http://localhost/api/project').reply(200, {
             code: 200,

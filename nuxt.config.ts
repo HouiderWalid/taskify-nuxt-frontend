@@ -8,12 +8,6 @@ export default defineNuxtConfig({
     vite: {
         plugins: [tailwindcss()]
     },
-    runtimeConfig: {
-        public: {
-            apiBaseURL: process.env.API_BASE_URL,
-            recaptchaSiteKey: process.env.RECAPTCHA_SITE_KEY,
-        }
-    },
     modules:[
         '@nuxt/test-utils/module',
         '@pinia/nuxt',
